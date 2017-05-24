@@ -15,7 +15,7 @@ module "tls" {
   source = "tls"
 }
 
-module "k8s-route53" {
+module "route53" {
   source = "route53"
 
   # variables
@@ -26,7 +26,7 @@ module "k8s-route53" {
   internal-zone-id = "${var.internal-zone-id}"
 }
 
-module "k8s-security" {
+module "security" {
   source = "security"
 
   # variables
@@ -60,12 +60,12 @@ module "bastion" {
   name          = "${ var.name }"
 
   # modules
-  security-group-id = "${ module.k8s-security.bastion-id }"
+  security-group-id = "${ module.security.bastion-id }"
   subnet-id         = "${ element( split(",", var.subnet-ids-public), 0 ) }"
   vpc-id            = "${ var.vpc-id }"
 }
 
-module "etcd" {
+module "master" {
   source = "master"
 
   # variables
@@ -86,8 +86,8 @@ module "etcd" {
   subnet-id-public         = "${ element( split(",", var.subnet-ids-public), 0 ) }"
 
   # modules
-  etcd-security-group-id         = "${ module.k8s-security.etcd-id }"
-  external-elb-security-group-id = "${ module.k8s-security.external-elb-id }"
+  etcd-security-group-id         = "${ module.security.etcd-id }"
+  external-elb-security-group-id = "${ module.security.external-elb-id }"
   instance-profile-name          = "${ module.iam.instance-profile-name-master }"
   s3-bucket                      = "${ module.s3.bucket }"
   tls-ca-private-key-algorithm   = "${module.tls.tls-ca-private-key-algorithm}"
@@ -124,7 +124,7 @@ module "worker" {
 
   # modules
   instance-profile-name        = "${ module.iam.instance-profile-name-worker }"
-  security-group-id            = "${ module.k8s-security.worker-id }"
+  security-group-id            = "${ module.security.worker-id }"
   subnet-id                    = "${ element( split(",", var.subnet-ids-private), 0 ) }"
   vpc-id                       = "${ var.vpc-id }"
   s3-bucket                    = "${ module.s3.bucket }"
@@ -140,7 +140,7 @@ module "k8s" {
   cluster-name = "${ var.name }"
 
   # modules
-  external-elb                 = "${module.etcd.external-elb}"
+  external-elb                 = "${module.master.external-elb}"
   tls-ca-private-key-algorithm = "${module.tls.tls-ca-private-key-algorithm}"
   tls-ca-private-key-pem       = "${module.tls.tls-ca-private-key-pem}"
   tls-ca-self-signed-cert-pem  = "${module.tls.tls-self-signed-cert-pem}"

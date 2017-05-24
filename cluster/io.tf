@@ -88,12 +88,17 @@ output "bastion-ip" {
   value = "${ module.bastion.ip }"
 }
 
-//output "external-elb" { value = "${ module.etcd.external-elb }" }
+output "external-elb" {
+  value = "${ module.master.external-elb }"
+}
+
 output "internal-tld" {
   value = "${ var.internal-tld }"
 }
 
-//output "worker-autoscaling-group-name" { value = "${ module.worker.autoscaling-group-name }" }
+output "worker-autoscaling-group-name" {
+  value = "${ module.worker.autoscaling-group-name }"
+}
 
 output "cluster-ips" {
   value = "${

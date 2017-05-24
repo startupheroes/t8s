@@ -6,15 +6,8 @@ variable "aws" {
   type = "map"
 }
 
-variable "cidr" {
-  type = "map"
-
-  default = {
-    vpc = "10.0.0.0/16"
-  }
-}
-
 variable "name" {}
+variable "cidr-vpc" {}
 variable "internal-tld" {}
 variable "ssh-public-file" {}
 
