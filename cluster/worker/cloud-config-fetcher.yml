@@ -1,0 +1,34 @@
+#cloud-config
+
+---
+coreos:
+  units:
+    - name: bypass-user-data-limit.service
+      command: start
+      content: |
+        [Unit]
+        Description=Update the machine using our own cloud config as AWS user-data sucks
+        [Service]
+        EnvironmentFile=/etc/environment
+        ExecStartPre=/opt/bin/fetch-from-s3 ${s3-cloud-init-file}
+        ExecStart=/usr/bin/coreos-cloudinit --from-file /etc/systemd/system/${s3-cloud-init-file}
+        RemainAfterExit=yes
+        Type=oneshot
+
+write-files:
+  - path: /opt/bin/fetch-from-s3
+    permissions: 0755
+    owner: root:root
+    content: |
+      #!/bin/bash -e
+      until /usr/bin/rkt run \
+        --net=host \
+        --trust-keys-from-https \
+        --volume=dns,kind=host,source=/etc/resolv.conf,readOnly=true --mount volume=dns,target=/etc/resolv.conf \
+        --volume=ssl,kind=host,source=/etc/systemd/system,readOnly=false --mount=volume=ssl,target=/etc/systemd/system \
+        quay.io/coreos/awscli -- aws s3 cp s3://${ s3-bucket }/$1 /etc/systemd/system
+      do
+        echo "retrying"
+        sleep 5.2
+      done
+      echo "✓"
