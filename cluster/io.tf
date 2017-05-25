@@ -5,7 +5,6 @@ variable "cluster-domain" {
   default = "cluster.local"
 }
 
-
 variable "master-count" {
   default = "3"
 }
@@ -40,7 +39,7 @@ variable "cidr" {
   type = "map"
 
   default = {
-    vpc             = "10.0.0.0/16"
+    vpc             = "192.168.230.0/16"
     allow-ssh       = "0.0.0.0/0"
     pods            = "10.2.0.0/16"
     service-cluster = "10.3.0.0/24"

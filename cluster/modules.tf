@@ -7,7 +7,7 @@ module "vpc" {
 
   # variables
   master-cidr-offset = "${ var.master-cidr-offset }"
-  master-count = "${var.master-count}"
+  master-count       = "${var.master-count}"
   subnet-ids-private = "${ var.subnet-ids-private}"
 }
 
@@ -28,12 +28,12 @@ module "route53" {
   source = "route53"
 
   # variables
-  master-ips       = "${ module.vpc.master-ips }"
+  master-ips   = "${ module.vpc.master-ips }"
   internal-tld = "${ var.internal-tld }"
 
   # modules
   internal-zone-id = "${var.internal-zone-id}"
-  master-count                   = "${ var.master-count }"
+  master-count     = "${ var.master-count }"
 }
 
 module "security" {

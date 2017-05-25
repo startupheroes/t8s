@@ -11,6 +11,14 @@ variable "cidr-vpc" {}
 variable "internal-tld" {}
 variable "ssh-public-file" {}
 
+variable "cidr-step-private-subnet" {
+  default = "10"
+}
+
+variable "cidr-offset-subnet" {
+  default = "0"
+}
+
 # outputs
 output "azs" {
   value = "${ var.aws["azs"] }"

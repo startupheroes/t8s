@@ -1,4 +1,4 @@
-data  "aws_subnet" "private_subnet"{
+data "aws_subnet" "private_subnet" {
   id = "${ element(split( ",",var.subnet-ids-private ), 0) }"
 }
 

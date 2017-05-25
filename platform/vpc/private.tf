@@ -15,8 +15,8 @@ resource "aws_nat_gateway" "nat" {
 resource "aws_subnet" "private" {
   count = "${ length( split(",", var.azs) ) }"
 
-  availability_zone = "${ element( split(",", var.azs), count.index ) }"
-  cidr_block        = "${ cidrsubnet(var.cidr, 8, count.index + 10) }"
+  availability_zone = "${ element( split(",", var.azs), var.cidr-offset-subnet + count.index ) }"
+  cidr_block        = "${ cidrsubnet(var.cidr, 8, var.cidr-offset-subnet + count.index + var.cidr-step-private-subnet) }"
   vpc_id            = "${ aws_vpc.main.id }"
 
   tags {

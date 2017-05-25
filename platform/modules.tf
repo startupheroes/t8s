@@ -12,10 +12,12 @@ module "vpc" {
   depends-id = ""
 
   # variables
-  azs    = "${ var.aws["azs"] }"
-  cidr   = "${ var.cidr-vpc }"
-  name   = "${ var.name }"
-  region = "${ var.aws["region"] }"
+  azs                      = "${ var.aws["azs"] }"
+  cidr                     = "${ var.cidr-vpc }"
+  cidr-offset-subnet       = "${ var.cidr-offset-subnet}"
+  cidr-step-private-subnet = "${ var.cidr-step-private-subnet}"
+  name                     = "${ var.name }"
+  region                   = "${ var.aws["region"] }"
 }
 
 module "route53" {

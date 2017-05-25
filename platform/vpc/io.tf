@@ -1,5 +1,7 @@
 variable "azs" {}
 variable "cidr" {}
+variable "cidr-step-private-subnet" {}
+variable "cidr-offset-subnet" {}
 variable "depends-id" {}
 variable "name" {}
 variable "region" {}
