@@ -2,6 +2,15 @@ provider "aws" {
   region = "${ var.aws["region"] }"
 }
 
+module "vpc" {
+  source = "vpc"
+
+  # variables
+  master-cidr-offset = "${ var.master-cidr-offset }"
+  master-count = "${var.master-count}"
+  subnet-ids-private = "${ var.subnet-ids-private}"
+}
+
 module "s3" {
   source = "s3"
 
@@ -19,11 +28,12 @@ module "route53" {
   source = "route53"
 
   # variables
+  master-ips       = "${ module.vpc.master-ips }"
   internal-tld = "${ var.internal-tld }"
 
   # modules
-  etcd-ips         = "${ var.etcd-ips }"
   internal-zone-id = "${var.internal-zone-id}"
+  master-count                   = "${ var.master-count }"
 }
 
 module "security" {
@@ -74,7 +84,6 @@ module "master" {
   aws                      = "${ var.aws }"
   cluster-domain           = "${ var.cluster-domain }"
   dns-service-ip           = "${ var.dns-service-ip }"
-  etcd-ips                 = "${ var.etcd-ips }"
   instance-type            = "${ var.instance-type["etcd"] }"
   internal-tld             = "${ var.internal-tld }"
   ip-k8s-service           = "${ var.k8s-service-ip }"
@@ -86,13 +95,15 @@ module "master" {
   subnet-id-public         = "${ element( split(",", var.subnet-ids-public), 0 ) }"
 
   # modules
-  etcd-security-group-id         = "${ module.security.etcd-id }"
+  etcd-security-group-id         = "${ module.security.master-id }"
   external-elb-security-group-id = "${ module.security.external-elb-id }"
   instance-profile-name          = "${ module.iam.instance-profile-name-master }"
+  master-ips                     = "${ module.vpc.master-ips }"
+  master-count                   = "${ var.master-count }"
   s3-bucket                      = "${ module.s3.bucket }"
-  tls-ca-private-key-algorithm   = "${module.tls.tls-ca-private-key-algorithm}"
-  tls-ca-private-key-pem         = "${module.tls.tls-ca-private-key-pem}"
-  tls-ca-self-signed-cert-pem    = "${module.tls.tls-self-signed-cert-pem}"
+  tls-ca-private-key-algorithm   = "${ module.tls.tls-ca-private-key-algorithm }"
+  tls-ca-private-key-pem         = "${ module.tls.tls-ca-private-key-pem }"
+  tls-ca-self-signed-cert-pem    = "${ module.tls.tls-self-signed-cert-pem }"
 }
 
 module "worker" {

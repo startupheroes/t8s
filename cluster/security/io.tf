@@ -11,8 +11,8 @@ output "bastion-id" {
   value = "${ aws_security_group.bastion.id }"
 }
 
-output "etcd-id" {
-  value = "${ aws_security_group.etcd.id }"
+output "master-id" {
+  value = "${ aws_security_group.master.id }"
 }
 
 output "external-elb-id" {

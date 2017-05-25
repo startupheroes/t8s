@@ -35,8 +35,8 @@ resource "aws_elb" "external" {
 }
 
 resource "aws_elb_attachment" "master" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+  count = "${ var.master-count }"
 
   elb      = "${ aws_elb.external.id }"
-  instance = "${ element(aws_instance.etcd.*.id, count.index) }"
+  instance = "${ element(aws_instance.master.*.id, count.index) }"
 }

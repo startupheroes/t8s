@@ -1,12 +1,12 @@
-resource "aws_instance" "etcd" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+resource "aws_instance" "master" {
+  count = "${ var.master-count }"
 
   ami                         = "${ var.ami-id }"
   associate_public_ip_address = false
   iam_instance_profile        = "${ var.instance-profile-name }"
   instance_type               = "${ var.instance-type }"
   key_name                    = "${ var.aws["key-name"] }"
-  private_ip                  = "${ element(split(",", var.etcd-ips), count.index) }"
+  private_ip                  = "${ element(split(",", var.master-ips), count.index) }"
 
   root_block_device {
     volume_size = 124
@@ -31,5 +31,5 @@ resource "aws_instance" "etcd" {
 }
 
 resource "null_resource" "dummy_dependency" {
-  depends_on = ["aws_instance.etcd"]
+  depends_on = ["aws_instance.master"]
 }

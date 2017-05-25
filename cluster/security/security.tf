@@ -27,7 +27,7 @@ resource "aws_security_group" "bastion" {
   vpc_id = "${ var.vpc-id }"
 }
 
-resource "aws_security_group" "etcd" {
+resource "aws_security_group" "master" {
   description = "t8s etcd security group"
 
   egress = {
@@ -68,7 +68,7 @@ resource "aws_security_group" "external-elb" {
     protocol  = "-1"
 
     /*cidr_blocks = [ "${ var.cidr-vpc }" ]*/
-    security_groups = ["${ aws_security_group.etcd.id }"]
+    security_groups = ["${ aws_security_group.master.id }"]
   }
 
   ingress {

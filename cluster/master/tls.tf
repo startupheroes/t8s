@@ -8,7 +8,7 @@ resource "tls_private_key" "apiserver" {
 }
 
 resource "tls_cert_request" "apiserver" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+  count = "${ var.master-count }"
 
   key_algorithm   = "${tls_private_key.apiserver.algorithm}"
   private_key_pem = "${tls_private_key.apiserver.private_key_pem}"
@@ -29,12 +29,12 @@ resource "tls_cert_request" "apiserver" {
   ip_addresses = [
     "127.0.0.1",
     "${ var.ip-k8s-service}",
-    "${element(split(",", var.etcd-ips),count.index)}",
+    "${element(split(",", var.master-ips),count.index)}",
   ]
 }
 
 resource "tls_locally_signed_cert" "apiserver" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+  count = "${ var.master-count }"
 
   cert_request_pem      = "${element(tls_cert_request.apiserver.*.cert_request_pem, count.index)}"
   ca_key_algorithm      = "${var.tls-ca-private-key-algorithm}"
@@ -64,7 +64,7 @@ resource "tls_private_key" "etcd" {
 }
 
 resource "tls_cert_request" "etcd" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+  count = "${ var.master-count }"
 
   key_algorithm   = "${tls_private_key.etcd.algorithm}"
   private_key_pem = "${tls_private_key.etcd.private_key_pem}"
@@ -84,12 +84,12 @@ resource "tls_cert_request" "etcd" {
 
   ip_addresses = [
     "127.0.0.1",
-    "${element(split(",", var.etcd-ips),count.index)}",
+    "${element(split(",", var.master-ips),count.index)}",
   ]
 }
 
 resource "tls_locally_signed_cert" "etcd" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+  count = "${ var.master-count }"
 
   cert_request_pem      = "${element(tls_cert_request.etcd.*.cert_request_pem,count.index)}"
   ca_key_algorithm      = "${var.tls-ca-private-key-algorithm}"

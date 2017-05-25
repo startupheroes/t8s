@@ -5,8 +5,13 @@ variable "cluster-domain" {
   default = "cluster.local"
 }
 
-variable "etcd-ips" {
-  default = "10.0.10.10,10.0.10.11,10.0.10.12"
+
+variable "master-count" {
+  default = "3"
+}
+
+variable "master-cidr-offset" {
+  default = "10"
 }
 
 variable "dns-service-ip" {
@@ -80,8 +85,8 @@ output "dns-service-ip" {
   value = "${ var.dns-service-ip }"
 }
 
-output "etcd1-ip" {
-  value = "${ element( split(",", var.etcd-ips), 0 ) }"
+output "master1-ip" {
+  value = "${ element( split(",", module.vpc.master-ips), 0 ) }"
 }
 
 output "bastion-ip" {
@@ -105,7 +110,7 @@ output "cluster-ips" {
     map(
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",
-      "etcd", "${ var.etcd-ips }"
+      "etcd", "${ module.vpc.master-ips }"
     )
   }"
 }

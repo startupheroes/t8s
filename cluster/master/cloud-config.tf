@@ -1,9 +1,9 @@
 data "template_file" "cloud-config" {
-  count    = "${ length( split(",", var.etcd-ips) ) }"
+  count    = "${ var.master-count }"
   template = "${ file( "${ path.module }/cloud-config.yml" )}"
 
   vars {
-    apiserver-count          = "${ length( split(",", var.etcd-ips) ) }"
+    apiserver-count          = "${ length( split(",", var.master-ips) ) }"
     cluster-domain           = "${ var.cluster-domain }"
     cluster-token            = "etcd-cluster-${ var.name }"
     dns-service-ip           = "${ var.dns-service-ip }"
@@ -28,7 +28,7 @@ data "template_file" "cloud-config" {
 }
 
 data "template_file" "cloud-config-fetcher" {
-  count    = "${ length( split(",", var.etcd-ips) ) }"
+  count    = "${ var.master-count }"
   template = "${ file( "${ path.module }/cloud-config-fetcher.yml" )}"
 
   vars {
@@ -38,7 +38,7 @@ data "template_file" "cloud-config-fetcher" {
 }
 
 resource "aws_s3_bucket_object" "cloud-config" {
-  count   = "${ length( split(",", var.etcd-ips) ) }"
+  count   = "${ var.master-count }"
   bucket  = "${ var.s3-bucket }"
   key     = "${format("%s-%d-cloud-config.yml", var.s3-bucket-master-prefix, count.index)}"
   content = "${ element(data.template_file.cloud-config.*.rendered, count.index) }"

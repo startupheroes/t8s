@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "pki" {
+resource "aws_s3_bucket" "tls" {
   acl           = "private"
   bucket        = "${ var.bucket }"
   force_destroy = true

@@ -1,20 +1,20 @@
 resource "aws_route53_record" "A-etcd" {
   name    = "etcd"
-  records = ["${ split(",", var.etcd-ips) }"]
+  records = ["${ split(",", var.master-ips) }"]
   ttl     = "300"
   type    = "A"
   zone_id = "${ var.internal-zone-id }"
 }
 
 resource "aws_route53_record" "A-etcds" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+  count = "${ var.master-count }"
 
   name = "etcd${ count.index+1 }"
   ttl  = "300"
   type = "A"
 
   records = [
-    "${ element(split(",", var.etcd-ips), count.index) }",
+    "${ element(split(",", var.master-ips), count.index) }",
   ]
 
   zone_id = "${ var.internal-zone-id }"

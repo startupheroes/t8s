@@ -12,6 +12,10 @@ resource "null_resource" "null-file-resources" {
 EOT
   }
 }
+resource "null_resource" "id_rsa_file2" {
+
+}
+
 
 resource "null_resource" "id_rsa_file" {
   triggers {

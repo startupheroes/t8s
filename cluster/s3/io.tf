@@ -10,5 +10,5 @@ output "bucket" {
 }
 
 output "bucket-arn" {
-  value = "${ aws_s3_bucket.pki.arn }"
+  value = "${ aws_s3_bucket.tls.arn }"
 }

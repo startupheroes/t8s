@@ -6,7 +6,8 @@ variable "aws" {
 
 variable "cluster-domain" {}
 variable "dns-service-ip" {}
-variable "etcd-ips" {}
+variable "master-count" {}
+variable "master-ips" {}
 variable "etcd-security-group-id" {}
 variable "external-elb-security-group-id" {}
 variable "instance-profile-name" {}
@@ -46,5 +47,5 @@ output "external-elb" {
 }
 
 output "internal-ips" {
-  value = "${ join(",", aws_instance.etcd.*.public_ip) }"
+  value = "${ join(",", aws_instance.master.*.public_ip) }"
 }

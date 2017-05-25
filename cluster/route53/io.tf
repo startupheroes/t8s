@@ -1,5 +1,6 @@
 variable "internal-tld" {}
-variable "etcd-ips" {}
+variable "master-count" {}
+variable "master-ips" {}
 variable "internal-zone-id" {}
 
 output "depends-id" {
