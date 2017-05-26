@@ -6,7 +6,7 @@ variable "bucket" {}
 variable "name" {}
 
 output "bucket" {
-  value = "${ var.bucket }"
+  value = "${ aws_s3_bucket.tls.bucket }"
 }
 
 output "bucket-arn" {
