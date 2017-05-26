@@ -20,11 +20,11 @@ data "template_file" "id-rsa-public" {
 }
 
 resource "local_file" "id-rsa-file" {
-  content = "${data.template_file.id-rsa-private.rendered}"
+  content  = "${data.template_file.id-rsa-private.rendered}"
   filename = "${var.output-private-file}"
 }
 
 resource "local_file" "id-rsa-pub-file" {
-  content = "${data.template_file.id-rsa-public.rendered}"
+  content  = "${data.template_file.id-rsa-public.rendered}"
   filename = "${var.output-public-file}"
 }

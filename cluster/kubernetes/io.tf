@@ -17,6 +17,6 @@ variable "ca-file" {
   default = "ca.pem"
 }
 
-variable "dir-ssl" {
-  default = ".cfssl"
+variable "dir-tls" {
+  default = ".tls"
 }

@@ -3,7 +3,8 @@ data "aws_subnet" "private_subnet" {
 }
 
 resource "null_resource" "master" {
-  count    = "${ var.master-count }"
+  count = "${ var.master-count }"
+
   triggers {
     ip = "${cidrhost(data.aws_subnet.private_subnet.cidr_block, var.master-cidr-offset + count.index )}"
   }

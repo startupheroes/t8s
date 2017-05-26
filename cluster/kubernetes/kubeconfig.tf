@@ -1,19 +1,17 @@
-resource "null_resource" "null-file-resources" {
-  triggers {
-    test = "${tls_private_key.admin.private_key_pem}"
-  }
-
-  provisioner "local-exec" {
-    command = <<EOT
-    mkdir -p ${var.dir-ssl}/${var.cluster-name}
-    echo "${var.tls-ca-self-signed-cert-pem}" > ${var.dir-ssl}/${var.cluster-name}/${var.ca-file}
-    echo "${tls_private_key.admin.private_key_pem}" > ${var.dir-ssl}/${var.cluster-name}/${var.admin-key-file}
-    echo "${tls_locally_signed_cert.admin.cert_pem}" > ${var.dir-ssl}/${var.cluster-name}/${var.admin-file}
-EOT
-  }
+resource "local_file" "ca-file" {
+  content  = "${var.tls-ca-self-signed-cert-pem}"
+  filename = "${var.dir-tls}/${var.cluster-name}/${var.ca-file}"
 }
 
-resource "null_resource" "id_rsa_file2" {}
+resource "local_file" "admin-key-file" {
+  content  = "${tls_private_key.admin.private_key_pem}"
+  filename = "${var.dir-tls}/${var.cluster-name}/${var.admin-key-file}"
+}
+
+resource "local_file" "admin-file" {
+  content  = "${tls_locally_signed_cert.admin.cert_pem}"
+  filename = "${var.dir-tls}/${var.cluster-name}/${var.admin-file}"
+}
 
 resource "null_resource" "id_rsa_file" {
   triggers {
@@ -24,13 +22,13 @@ resource "null_resource" "id_rsa_file" {
     command = <<EOT
     kubectl config set-cluster cluster-${var.cluster-name} \
      --embed-certs=true --server=https://${var.external-elb} \
-     --certificate-authority=${var.dir-ssl}/${var.cluster-name}/${var.ca-file}
+     --certificate-authority=${var.dir-tls}/${var.cluster-name}/${var.ca-file}
 
     kubectl config set-credentials admin-${var.cluster-name} \
       --embed-certs=true \
-      --certificate-authority=${var.dir-ssl}/${var.cluster-name}/${var.ca-file} \
-      --client-key=${var.dir-ssl}/${var.cluster-name}/${var.admin-key-file} \
-      --client-certificate=${var.dir-ssl}/${var.cluster-name}/${var.admin-file}
+      --certificate-authority=${var.dir-tls}/${var.cluster-name}/${var.ca-file} \
+      --client-key=${var.dir-tls}/${var.cluster-name}/${var.admin-key-file} \
+      --client-certificate=${var.dir-tls}/${var.cluster-name}/${var.admin-file}
 
     kubectl config set-context ${var.cluster-name} \
       --cluster=cluster-${var.cluster-name} \
@@ -46,7 +44,7 @@ EOT
     kubectl config delete-cluster cluster-${var.cluster-name}
     kubectl config unset users.admin-${var.cluster-name}
     kubectl config delete-context ${var.cluster-name}
-    rm -rf ${var.dir-ssl}/${var.cluster-name}
+    rm -rf ${var.dir-tls}/${var.cluster-name}
 EOT
   }
 }
