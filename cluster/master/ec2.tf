@@ -28,6 +28,10 @@ resource "aws_instance" "master" {
 
   user_data              = "${ element(data.template_file.cloud-config-fetcher.*.rendered, count.index) }"
   vpc_security_group_ids = ["${ var.etcd-security-group-id }"]
+
+  lifecycle {
+    ignore_changes = ["ami"]
+  }
 }
 
 resource "null_resource" "dummy_dependency" {

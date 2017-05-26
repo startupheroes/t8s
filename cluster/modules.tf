@@ -1,5 +1,5 @@
-provider "aws" {
-  region = "${ var.aws["region"] }"
+module "ami" {
+  source = "ami"
 }
 
 module "vpc" {
@@ -7,8 +7,8 @@ module "vpc" {
 
   # variables
   master-cidr-offset = "${ var.master-cidr-offset }"
-  master-count       = "${var.master-count}"
-  subnet-ids-private = "${ var.subnet-ids-private}"
+  master-count       = "${ var.master-count }"
+  subnet-ids-private = "${ var.subnet-ids-private }"
 }
 
 module "s3" {
@@ -63,13 +63,13 @@ module "bastion" {
   depends-id = "${ var.vpc-id }"
 
   # variables
-  ami-id        = "${ var.coreos-aws["ami"] }"
   instance-type = "${ var.instance-type["bastion"] }"
   internal-tld  = "${ var.internal-tld }"
   key-name      = "${ var.aws["key-name"] }"
   name          = "${ var.name }"
 
   # modules
+  ami-id            = "${ module.ami.ami_id }"
   security-group-id = "${ module.security.bastion-id }"
   subnet-id         = "${ element( split(",", var.subnet-ids-public), 0 ) }"
   vpc-id            = "${ var.vpc-id }"
@@ -80,7 +80,6 @@ module "master" {
 
   # variables
   vpc-id                   = "${ var.vpc-id }"
-  ami-id                   = "${ var.coreos-aws["ami"] }"
   aws                      = "${ var.aws }"
   cluster-domain           = "${ var.cluster-domain }"
   dns-service-ip           = "${ var.dns-service-ip }"
@@ -88,6 +87,7 @@ module "master" {
   internal-tld             = "${ var.internal-tld }"
   ip-k8s-service           = "${ var.k8s-service-ip }"
   k8s                      = "${ var.k8s }"
+  master-count             = "${ var.master-count }"
   name                     = "${ var.name }"
   pod-ip-range             = "${ var.cidr["pods"] }"
   service-cluster-ip-range = "${ var.cidr["service-cluster"] }"
@@ -95,11 +95,11 @@ module "master" {
   subnet-id-public         = "${ element( split(",", var.subnet-ids-public), 0 ) }"
 
   # modules
+  ami-id                         = "${ module.ami.ami_id }"
   etcd-security-group-id         = "${ module.security.master-id }"
   external-elb-security-group-id = "${ module.security.external-elb-id }"
   instance-profile-name          = "${ module.iam.instance-profile-name-master }"
   master-ips                     = "${ module.vpc.master-ips }"
-  master-count                   = "${ var.master-count }"
   s3-bucket                      = "${ module.s3.bucket }"
   tls-ca-private-key-algorithm   = "${ module.tls.tls-ca-private-key-algorithm }"
   tls-ca-private-key-pem         = "${ module.tls.tls-ca-private-key-pem }"
@@ -110,38 +110,27 @@ module "worker" {
   source = "worker"
 
   # variables
-  ami-id = "${ var.coreos-aws["ami"] }"
-  aws    = "${ var.aws }"
-
-  capacity = {
-    desired = 1
-    max     = 5
-    min     = 1
-  }
-
+  aws            = "${ var.aws }"
+  capacity       = "${ var.capacity }"
   cluster-domain = "${ var.cluster-domain }"
   dns-service-ip = "${ var.dns-service-ip }"
   instance-type  = "${ var.instance-type["worker"] }"
   internal-tld   = "${ var.internal-tld }"
   k8s            = "${ var.k8s }"
   name           = "${ var.name }"
-
-  volume_size = {
-    ebs  = 250
-    root = 52
-  }
-
+  subnet-id      = "${ element( split(",", var.subnet-ids-private), 0 ) }"
+  volume_size    = "${ var.volume-size }"
+  vpc-id         = "${ var.vpc-id }"
   worker-name = "general"
 
   # modules
+  ami-id                       = "${ module.ami.ami_id }"
   instance-profile-name        = "${ module.iam.instance-profile-name-worker }"
   security-group-id            = "${ module.security.worker-id }"
-  subnet-id                    = "${ element( split(",", var.subnet-ids-private), 0 ) }"
-  vpc-id                       = "${ var.vpc-id }"
   s3-bucket                    = "${ module.s3.bucket }"
-  tls-ca-private-key-algorithm = "${module.tls.tls-ca-private-key-algorithm}"
-  tls-ca-private-key-pem       = "${module.tls.tls-ca-private-key-pem}"
-  tls-ca-self-signed-cert-pem  = "${module.tls.tls-self-signed-cert-pem}"
+  tls-ca-private-key-algorithm = "${ module.tls.tls-ca-private-key-algorithm }"
+  tls-ca-private-key-pem       = "${ module.tls.tls-ca-private-key-pem }"
+  tls-ca-self-signed-cert-pem  = "${ module.tls.tls-self-signed-cert-pem }"
 }
 
 module "k8s" {

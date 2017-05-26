@@ -56,11 +56,22 @@ variable "instance-type" {
   }
 }
 
-variable "coreos-aws" {
+variable "capacity" {
   type = "map"
 
   default = {
-    ami = "ami-0bcbcb6d"
+    desired = 1
+    max     = 5
+    min     = 1
+  }
+}
+
+variable "volume-size" {
+  type = "map"
+
+  default = {
+    ebs  = 250
+    root = 52
   }
 }
 

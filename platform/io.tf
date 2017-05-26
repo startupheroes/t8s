@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "${ var.aws["region"] }"
-}
-
 variable "aws" {
   type = "map"
 }

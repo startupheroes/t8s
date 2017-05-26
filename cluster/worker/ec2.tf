@@ -22,9 +22,9 @@ resource "aws_launch_configuration" "worker" {
 
   user_data = "${ data.template_file.cloud-config-fetcher.rendered }"
 
-  /*lifecycle {
-    create_before_destroy = true
-  }*/
+  lifecycle {
+    ignore_changes = ["image_id"]
+  }
 }
 
 resource "aws_autoscaling_group" "worker" {

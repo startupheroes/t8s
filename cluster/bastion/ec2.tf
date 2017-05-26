@@ -20,6 +20,10 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids = [
     "${ var.security-group-id }",
   ]
+
+  lifecycle {
+    ignore_changes = ["ami"]
+  }
 }
 
 resource "null_resource" "dummy_dependency" {
