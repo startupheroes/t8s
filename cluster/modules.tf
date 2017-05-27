@@ -145,3 +145,17 @@ module "k8s" {
   tls-ca-private-key-pem       = "${module.tls.tls-ca-private-key-pem}"
   tls-ca-self-signed-cert-pem  = "${module.tls.tls-self-signed-cert-pem}"
 }
+
+module "manifest" {
+  source = "manifest"
+
+  # variables
+  aws = "${var.aws}"
+  cluster-name = "${var.name}"
+  cluster-domain = "${var.cluster-domain}"
+  dns-service-ip = "${var.dns-service-ip}"
+  internal-tld = "${var.internal-tld}"
+
+  # module vars
+  worker-autoscaling-group-name = "${module.worker.autoscaling-group-name}"
+}

@@ -18,5 +18,5 @@ variable "ca-file" {
 }
 
 variable "dir-tls" {
-  default = ".tls"
+  default = "tls"
 }
