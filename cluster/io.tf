@@ -115,12 +115,15 @@ output "worker-autoscaling-group-name" {
   value = "${ module.worker.autoscaling-group-name }"
 }
 
-output "cluster-ips" {
+output "cluster" {
   value = "${
     map(
+      "cluster-domain", "${ var.cluster-domain }",
+      "internal-tld", "${ var.internal-tld }",
+      "worker-autoscaling-group-name", "${ module.worker.autoscaling-group-name }",
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",
-      "etcd", "${ module.vpc.master-ips }"
+      "master1-ip", "${ module.vpc.master-ips }"
     )
   }"
 }
