@@ -3,12 +3,6 @@
 ---
 coreos:
 
-  locksmith:
-    endpoint: https://etcd.${ internal-tld }:2379
-    etcd_cafile: /etc/kubernetes/ssl/ca.pem
-    etcd_certfile: /etc/kubernetes/ssl/k8s-etcd.pem
-    etcd_keyfile: /etc/kubernetes/ssl/k8s-etcd-key.pem
-
   flannel:
     etcd_cafile: /etc/kubernetes/ssl/ca.pem
     etcd_certfile: /etc/kubernetes/ssl/k8s-worker.pem
@@ -16,11 +10,6 @@ coreos:
     etcd_keyfile: /etc/kubernetes/ssl/k8s-worker-key.pem
 
   units:
-    - name: update-engine.service
-      mask: true
-
-    - name: locksmithd.service
-      mask: true
 
     - name: etcd-member.service
       command: start
@@ -166,7 +155,7 @@ coreos:
         WantedBy=multi-user.target
 
   update:
-    reboot-strategy: etcd-lock
+    reboot-strategy: off
 
 write-files:
   - path: /etc/kubernetes/ssl/ca.pem

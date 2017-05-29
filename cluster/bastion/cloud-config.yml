@@ -2,36 +2,5 @@
 
 ---
 coreos:
-
-  locksmith:
-    endpoint: https://etcd.${ internal-tld }:2379
-    etcd_cafile: /etc/kubernetes/ssl/ca.pem
-    etcd_certfile: /etc/kubernetes/ssl/k8s-bastion.pem
-    etcd_keyfile: /etc/kubernetes/ssl/k8s-bastion-key.pem
-
-
   update:
-    reboot-strategy: etcd-lock
-
-  units:
-    - name: update-engine.service
-      mask: true
-
-    - name: locksmithd.service
-      mask: true
-
-write-files:
-  - path: /etc/environment
-    permissions: 0644
-    content: |
-      ETCDCTL_CA_FILE=/etc/kubernetes/ssl/ca.pem
-      ETCDCTL_CERT_FILE=/etc/kubernetes/ssl/k8s-bastion.pem
-      ETCDCTL_ENDPOINTS=https://etcd.${ internal-tld }:2379
-      ETCDCTL_KEY_FILE=/etc/kubernetes/ssl/k8s-bastion-key.pem
-
-  - path: /opt/bin/host-rkt
-    permissions: 0755
-    owner: root:root
-    content: |
-      #!/bin/sh
-      exec nsenter -m -u -i -n -p -t 1 -- /usr/bin/rkt "$@"
+    reboot-strategy: off
