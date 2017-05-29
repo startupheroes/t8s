@@ -16,6 +16,12 @@ coreos:
     etcd_keyfile: /etc/kubernetes/ssl/k8s-worker-key.pem
 
   units:
+    - name: update-engine.service
+      mask: true
+
+    - name: locksmithd.service
+      mask: true
+
     - name: etcd-member.service
       command: start
       drop-ins:

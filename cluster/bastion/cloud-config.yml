@@ -13,6 +13,13 @@ coreos:
   update:
     reboot-strategy: etcd-lock
 
+  units:
+    - name: update-engine.service
+      mask: true
+
+    - name: locksmithd.service
+      mask: true
+
 write-files:
   - path: /etc/environment
     permissions: 0644
