@@ -4,7 +4,6 @@ variable "aws" {
 
 variable "name" {}
 variable "cidr-vpc" {}
-variable "internal-tld" {}
 variable "ssh-public-file" {}
 
 variable "cidr-step-private-subnet" {
