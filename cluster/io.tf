@@ -1,4 +1,5 @@
 variable "name" {}
+variable "depends-id" {}
 variable "internal-tld" {}
 
 variable "cluster-domain" {
@@ -24,7 +25,6 @@ variable "k8s-service-ip" {
 variable "vpc-id" {}
 variable "subnet-ids-public" {}
 variable "subnet-ids-private" {}
-variable "internal-zone-id" {}
 
 variable "k8s" {
   type = "map"

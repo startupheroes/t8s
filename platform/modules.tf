@@ -19,15 +19,3 @@ module "vpc" {
   name                     = "${ var.name }"
   region                   = "${ var.aws["region"] }"
 }
-
-module "route53" {
-  source     = "route53"
-  depends-id = "${ module.vpc.depends-id }"
-
-  # variables
-  internal-tld = "${ var.internal-tld }"
-  name         = "${ var.name }"
-
-  # modules
-  vpc-id = "${ module.vpc.id }"
-}

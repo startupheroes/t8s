@@ -32,8 +32,10 @@ module "route53" {
   internal-tld = "${ var.internal-tld }"
 
   # modules
-  internal-zone-id = "${var.internal-zone-id}"
   master-count     = "${ var.master-count }"
+  vpc-id = "${var.vpc-id}"
+  name = "${var.name}"
+  depends-id = "${var.depends-id}"
 }
 
 module "security" {

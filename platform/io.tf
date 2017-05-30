@@ -20,16 +20,12 @@ output "azs" {
   value = "${ var.aws["azs"] }"
 }
 
+output "depends-id" {
+  value = "${module.vpc.depends-id}"
+}
+
 output "vpc-id" {
   value = "${ module.vpc.id}"
-}
-
-output "internal-zone-id" {
-  value = "${ module.route53.internal-zone-id}"
-}
-
-output "internal-name-servers" {
-  value = "${ module.route53.internal-name-servers}"
 }
 
 output "name" {
