@@ -1,3 +1,13 @@
+resource "null_resource" "waiting-clustter-null-resource" {
+  triggers {
+    test = "${var.cluster-name}"
+  }
+
+  provisioner "local-exec" {
+    command = "until curl --insecure https://${var.external-elb} &>/dev/null; do echo \"Waiting api server...\"; sleep 10; done"
+  }
+}
+
 resource "local_file" "ca-file" {
   content  = "${var.tls-ca-self-signed-cert-pem}"
   filename = ".cluster/${var.cluster-name}/${var.dir-tls}/${var.ca-file}"
@@ -14,6 +24,9 @@ resource "local_file" "admin-file" {
 }
 
 resource "null_resource" "id_rsa_file" {
+
+  depends_on = ["null_resource.waiting-clustter-null-resource"]
+
   triggers {
     test = "${var.cluster-name}"
   }
@@ -33,6 +46,14 @@ resource "null_resource" "id_rsa_file" {
     kubectl config set-context ${var.cluster-name} \
       --cluster=cluster-${var.cluster-name} \
       --user=admin-${var.cluster-name}
+
+    kubectl config use-context ${var.cluster-name}
+
+    kubectl create -f ${format(".cluster/%s/manifests", var.cluster-name)}/configmap
+    kubectl create -f ${format(".cluster/%s/manifests", var.cluster-name)}/dns
+    kubectl create -f ${format(".cluster/%s/manifests", var.cluster-name)}/dashboard
+    kubectl create -f ${format(".cluster/%s/manifests", var.cluster-name)}/rescheduler
+
 EOT
   }
 

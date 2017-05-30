@@ -32,10 +32,10 @@ module "route53" {
   internal-tld = "${ var.internal-tld }"
 
   # modules
-  master-count     = "${ var.master-count }"
-  vpc-id = "${var.vpc-id}"
-  name = "${var.name}"
-  depends-id = "${var.depends-id}"
+  master-count = "${var.master-count}"
+  vpc-id       = "${var.vpc-id}"
+  name         = "${var.name}"
+  depends-id   = "${var.depends-id}"
 }
 
 module "security" {
@@ -123,7 +123,7 @@ module "worker" {
   subnet-id      = "${ element( split(",", var.subnet-ids-private), 0 ) }"
   volume_size    = "${ var.volume-size }"
   vpc-id         = "${ var.vpc-id }"
-  worker-name = "general"
+  worker-name    = "general"
 
   # modules
   ami-id                       = "${ module.ami.ami_id }"
@@ -152,11 +152,11 @@ module "manifest" {
   source = "manifest"
 
   # variables
-  aws = "${var.aws}"
-  cluster-name = "${var.name}"
+  aws            = "${var.aws}"
+  cluster-name   = "${var.name}"
   cluster-domain = "${var.cluster-domain}"
   dns-service-ip = "${var.dns-service-ip}"
-  internal-tld = "${var.internal-tld}"
+  internal-tld   = "${var.internal-tld}"
 
   # module vars
   worker-autoscaling-group-name = "${module.worker.autoscaling-group-name}"
