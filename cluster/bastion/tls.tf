@@ -31,7 +31,7 @@ resource "tls_locally_signed_cert" "bastion" {
   ca_key_algorithm      = "${var.tls-ca-private-key-algorithm}"
   ca_private_key_pem    = "${var.tls-ca-private-key-pem}"
   ca_cert_pem           = "${var.tls-ca-self-signed-cert-pem}"
-  validity_period_hours = 8760
+  validity_period_hours = 43800
 
   allowed_uses = [
     "any_extended",
