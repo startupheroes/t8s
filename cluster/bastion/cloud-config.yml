@@ -2,5 +2,37 @@
 
 ---
 coreos:
+
+  locksmith:
+    endpoint: https://etcd.${ internal-tld }:2379
+    etcd_cafile: /etc/kubernetes/ssl/ca.pem
+    etcd_certfile: /etc/kubernetes/ssl/k8s-bastion.pem
+    etcd_keyfile: /etc/kubernetes/ssl/k8s-bastion-key.pem
+
   update:
     reboot-strategy: off
+
+write-files:
+  - path: /etc/kubernetes/ssl/ca.pem
+    content: ${ ca-pem }
+    permissions: '0644'
+    encoding: base64
+
+  - path: /etc/kubernetes/ssl/k8s-bastion-key.pem
+    content: ${ bastion-key }
+    encoding: base64
+    permissions: '0644'
+    owner: root
+
+  - path: /etc/kubernetes/ssl/k8s-bastion.pem
+    content: ${ bastion-pem }
+    permissions: '0644'
+    encoding: base64
+
+  - path: /etc/environment
+    permissions: 0644
+    content: |
+      ETCDCTL_CA_FILE=/etc/kubernetes/ssl/ca.pem
+      ETCDCTL_CERT_FILE=/etc/kubernetes/ssl/k8s-bastion.pem
+      ETCDCTL_ENDPOINTS=https://etcd.${ internal-tld }:2379
+      ETCDCTL_KEY_FILE=/etc/kubernetes/ssl/k8s-bastion-key.pem

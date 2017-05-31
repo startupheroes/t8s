@@ -71,10 +71,13 @@ module "bastion" {
   name          = "${ var.name }"
 
   # modules
-  ami-id            = "${ module.ami.ami_id }"
-  security-group-id = "${ module.security.bastion-id }"
-  subnet-id         = "${ element( split(",", var.subnet-ids-public), 0 ) }"
-  vpc-id            = "${ var.vpc-id }"
+  ami-id                       = "${ module.ami.ami_id }"
+  tls-ca-private-key-algorithm = "${ module.tls.tls-ca-private-key-algorithm }"
+  tls-ca-private-key-pem       = "${ module.tls.tls-ca-private-key-pem }"
+  tls-ca-self-signed-cert-pem  = "${ module.tls.tls-self-signed-cert-pem }"
+  security-group-id            = "${ module.security.bastion-id }"
+  subnet-id                    = "${ element( split(",", var.subnet-ids-public), 0 ) }"
+  vpc-id                       = "${ var.vpc-id }"
 }
 
 module "master" {
