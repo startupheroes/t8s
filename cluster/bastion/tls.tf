@@ -7,7 +7,7 @@ resource "tls_private_key" "bastion" {
   }
 }
 
-resource "tls_cert_request" "worker" {
+resource "tls_cert_request" "node" {
   key_algorithm   = "${tls_private_key.bastion.algorithm}"
   private_key_pem = "${tls_private_key.bastion.private_key_pem}"
 
@@ -27,7 +27,7 @@ resource "tls_cert_request" "worker" {
 }
 
 resource "tls_locally_signed_cert" "bastion" {
-  cert_request_pem      = "${tls_cert_request.worker.cert_request_pem}"
+  cert_request_pem      = "${tls_cert_request.node.cert_request_pem}"
   ca_key_algorithm      = "${var.tls-ca-private-key-algorithm}"
   ca_private_key_pem    = "${var.tls-ca-private-key-pem}"
   ca_cert_pem           = "${var.tls-ca-self-signed-cert-pem}"

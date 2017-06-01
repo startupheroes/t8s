@@ -6,4 +6,4 @@ variable "cluster-domain" {}
 variable "cluster-name" {}
 variable "dns-service-ip" {}
 variable "internal-tld" {}
-variable "worker-autoscaling-group-name" {}
+variable "node-autoscaling-group-name" {}

@@ -10,8 +10,8 @@ data "template_file" "cloud-config" {
     internal-tld    = "${ var.internal-tld }"
     s3-bucket       = "${ var.s3-bucket }"
     region          = "${ var.aws["region"] }"
-    worker-key      = "${base64encode(tls_private_key.worker.private_key_pem)}"
-    worker-pem      = "${base64encode(tls_locally_signed_cert.worker.cert_pem)}"
+    node-key      = "${base64encode(tls_private_key.node.private_key_pem)}"
+    node-pem      = "${base64encode(tls_locally_signed_cert.node.cert_pem)}"
   }
 }
 
@@ -20,13 +20,13 @@ data "template_file" "cloud-config-fetcher" {
 
   vars {
     s3-bucket          = "${ var.s3-bucket }"
-    s3-cloud-init-file = "${ format("%s-cloud-config.yml", var.s3-bucket-worker-prefix) }"
+    s3-cloud-init-file = "${ format("%s-cloud-config.yml", var.s3-bucket-node-prefix) }"
   }
 }
 
 resource "aws_s3_bucket_object" "cloud-config" {
   bucket  = "${ var.s3-bucket }"
-  key     = "${format("%s-cloud-config.yml", var.s3-bucket-worker-prefix)}"
+  key     = "${format("%s-cloud-config.yml", var.s3-bucket-node-prefix)}"
   content = "${ data.template_file.cloud-config.rendered }"
   etag    = "${ md5(data.template_file.cloud-config.rendered) }"
 }

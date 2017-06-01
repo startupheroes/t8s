@@ -52,7 +52,7 @@ variable "instance-type" {
   default = {
     bastion = "t2.nano"
     etcd    = "m3.large"
-    worker  = "m3.large"
+    node  = "m3.large"
   }
 }
 
@@ -111,8 +111,8 @@ output "internal-tld" {
   value = "${ var.internal-tld }"
 }
 
-output "worker-autoscaling-group-name" {
-  value = "${ module.worker.autoscaling-group-name }"
+output "node-autoscaling-group-name" {
+  value = "${ module.node.autoscaling-group-name }"
 }
 
 output "cluster" {
@@ -120,7 +120,7 @@ output "cluster" {
     map(
       "cluster-domain", "${ var.cluster-domain }",
       "internal-tld", "${ var.internal-tld }",
-      "worker-autoscaling-group-name", "${ module.worker.autoscaling-group-name }",
+      "node-autoscaling-group-name", "${ module.node.autoscaling-group-name }",
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",
       "master1-ip", "${ module.vpc.master-ips }"

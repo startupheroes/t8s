@@ -8,6 +8,6 @@ resource "template_dir" "manifest" {
     dns-service-ip                = "${var.dns-service-ip}"
     internal-tld                  = "${var.internal-tld}"
     region                        = "${var.aws["region"]}"
-    worker-autoscaling-group-name = "${var.worker-autoscaling-group-name}"
+    node-autoscaling-group-name = "${var.node-autoscaling-group-name}"
   }
 }

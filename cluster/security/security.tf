@@ -97,8 +97,8 @@ resource "aws_security_group" "external-elb" {
   vpc_id = "${ var.vpc-id }"
 }
 
-resource "aws_security_group" "worker" {
-  description = "t8s worker security group"
+resource "aws_security_group" "node" {
+  description = "t8s node security group"
 
   egress = {
     from_port = 0
@@ -117,12 +117,12 @@ resource "aws_security_group" "worker" {
     cidr_blocks = ["${ var.cidr-vpc }"]
   }
 
-  name = "t8s-worker-${ var.name }"
+  name = "t8s-node-${ var.name }"
 
   tags {
     KubernetesCluster = "${ var.name }"
     t8s               = "${ var.name }"
-    Name              = "t8s-worker-${ var.name }"
+    Name              = "t8s-node-${ var.name }"
     builtWith         = "terraform"
   }
 

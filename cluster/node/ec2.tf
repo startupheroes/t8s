@@ -1,4 +1,4 @@
-resource "aws_launch_configuration" "worker" {
+resource "aws_launch_configuration" "node" {
   ebs_block_device {
     device_name = "/dev/xvdf"
     volume_size = "${ var.volume_size["ebs"] }"
@@ -27,14 +27,14 @@ resource "aws_launch_configuration" "worker" {
   }
 }
 
-resource "aws_autoscaling_group" "worker" {
-  name = "worker-${ var.worker-name }-${ var.name }"
+resource "aws_autoscaling_group" "node" {
+  name = "node-${ var.node-name }-${ var.name }"
 
   desired_capacity          = "${ var.capacity["desired"] }"
   health_check_grace_period = 60
   health_check_type         = "EC2"
   force_delete              = true
-  launch_configuration      = "${ aws_launch_configuration.worker.name }"
+  launch_configuration      = "${ aws_launch_configuration.node.name }"
   max_size                  = "${ var.capacity["max"] }"
   min_size                  = "${ var.capacity["min"] }"
   vpc_zone_identifier       = ["${ var.subnet-id }"]
@@ -60,13 +60,13 @@ resource "aws_autoscaling_group" "worker" {
 
   tag {
     key                 = "Name"
-    value               = "t8s-worker"
+    value               = "t8s-node"
     propagate_at_launch = true
   }
 
   tag {
     key                 = "role"
-    value               = "worker"
+    value               = "node"
     propagate_at_launch = true
   }
 
@@ -85,7 +85,7 @@ resource "aws_autoscaling_group" "worker" {
 
 resource "null_resource" "dummy_dependency" {
   depends_on = [
-    "aws_autoscaling_group.worker",
-    "aws_launch_configuration.worker",
+    "aws_autoscaling_group.node",
+    "aws_launch_configuration.node",
   ]
 }

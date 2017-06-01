@@ -5,9 +5,9 @@ coreos:
 
   flannel:
     etcd_cafile: /etc/kubernetes/ssl/ca.pem
-    etcd_certfile: /etc/kubernetes/ssl/k8s-worker.pem
+    etcd_certfile: /etc/kubernetes/ssl/k8s-node.pem
     etcd_endpoints: https://etcd.${ internal-tld }:2379
-    etcd_keyfile: /etc/kubernetes/ssl/k8s-worker-key.pem
+    etcd_keyfile: /etc/kubernetes/ssl/k8s-node-key.pem
 
   units:
 
@@ -19,13 +19,13 @@ coreos:
           content: |
             [Service]
             Environment="ETCD_SSL_DIR=/etc/kubernetes/ssl"
-            Environment="ETCD_CERT_FILE=/etc/ssl/certs/k8s-worker.pem"
+            Environment="ETCD_CERT_FILE=/etc/ssl/certs/k8s-node.pem"
             Environment="ETCD_CLIENT_CERT_AUTH=TRUE"
             Environment="ETCD_DISCOVERY_SRV=${ internal-tld }"
-            Environment="ETCD_KEY_FILE=/etc/ssl/certs/k8s-worker-key.pem"
-            Environment="ETCD_PEER_CERT_FILE=/etc/ssl/certs/k8s-worker.pem"
+            Environment="ETCD_KEY_FILE=/etc/ssl/certs/k8s-node-key.pem"
+            Environment="ETCD_PEER_CERT_FILE=/etc/ssl/certs/k8s-node.pem"
             Environment="ETCD_PEER_CLIENT_AUTH=true"
-            Environment="ETCD_PEER_KEY_FILE=/etc/ssl/certs/k8s-worker-key.pem"
+            Environment="ETCD_PEER_KEY_FILE=/etc/ssl/certs/k8s-node-key.pem"
             Environment="ETCD_PEER_TRUSTED_CA_FILE=/etc/ssl/certs/ca.pem"
             Environment="ETCD_PROXY=on"
             Environment="ETCD_TRUSTED_CA_FILE=/etc/ssl/certs/ca.pem"
@@ -109,8 +109,8 @@ coreos:
       content: |
         [Unit]
         ConditionFileIsExecutable=/usr/lib/coreos/kubelet-wrapper
-        ConditionFileNotEmpty=/etc/kubernetes/ssl/k8s-worker.pem
-        ConditionFileNotEmpty=/etc/kubernetes/ssl/k8s-worker-key.pem
+        ConditionFileNotEmpty=/etc/kubernetes/ssl/k8s-node.pem
+        ConditionFileNotEmpty=/etc/kubernetes/ssl/k8s-node-key.pem
         After=flanneld.service
         After=prefetch-rkt-hyperkube.service
         After=prefetch-docker-hyperkube.service
@@ -147,8 +147,8 @@ coreos:
           --node-labels node-role.kubernetes.io/node \
           --pod-manifest-path=/etc/kubernetes/manifests \
           --register-node=true \
-          --tls-cert-file=/etc/kubernetes/ssl/k8s-worker.pem \
-          --tls-private-key-file=/etc/kubernetes/ssl/k8s-worker-key.pem
+          --tls-cert-file=/etc/kubernetes/ssl/k8s-node.pem \
+          --tls-private-key-file=/etc/kubernetes/ssl/k8s-node-key.pem
         Restart=always
         RestartSec=14
         [Install]
@@ -163,14 +163,14 @@ write-files:
     permissions: '0644'
     encoding: base64
 
-  - path: /etc/kubernetes/ssl/k8s-worker-key.pem
-    content: ${ worker-key }
+  - path: /etc/kubernetes/ssl/k8s-node-key.pem
+    content: ${ node-key }
     encoding: base64
     permissions: '0644'
     owner: root
 
-  - path: /etc/kubernetes/ssl/k8s-worker.pem
-    content: ${ worker-pem }
+  - path: /etc/kubernetes/ssl/k8s-node.pem
+    content: ${ node-pem }
     permissions: '0644'
     encoding: base64
 
@@ -179,11 +179,11 @@ write-files:
     content: |
       COREOS_PRIVATE_IPV4=$private_ipv4
       ETCD_CA_FILE=/etc/kubernetes/ssl/ca.pem
-      ETCD_CERT_FILE=/etc/kubernetes/ssl/k8s-worker.pem
-      ETCD_KEY_FILE=/etc/kubernetes/ssl/k8s-worker-key.pem
+      ETCD_CERT_FILE=/etc/kubernetes/ssl/k8s-node.pem
+      ETCD_KEY_FILE=/etc/kubernetes/ssl/k8s-node-key.pem
       ETCDCTL_CA_FILE=/etc/kubernetes/ssl/ca.pem
-      ETCDCTL_CERT_FILE=/etc/kubernetes/ssl/k8s-worker.pem
-      ETCDCTL_KEY_FILE=/etc/kubernetes/ssl/k8s-worker-key.pem
+      ETCDCTL_CERT_FILE=/etc/kubernetes/ssl/k8s-node.pem
+      ETCDCTL_KEY_FILE=/etc/kubernetes/ssl/k8s-node-key.pem
 
   - path: /opt/bin/host-rkt
     permissions: 0755
@@ -204,8 +204,8 @@ write-files:
       users:
         - name: kubelet
           user:
-            client-certificate: /etc/kubernetes/ssl/k8s-worker.pem
-            client-key: /etc/kubernetes/ssl/k8s-worker-key.pem
+            client-certificate: /etc/kubernetes/ssl/k8s-node.pem
+            client-key: /etc/kubernetes/ssl/k8s-node-key.pem
       contexts:
         - context:
             cluster: local

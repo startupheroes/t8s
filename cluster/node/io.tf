@@ -28,9 +28,9 @@ variable "k8s" {
 variable "name" {}
 variable "s3-bucket" {}
 
-variable "s3-bucket-worker-prefix" {
+variable "s3-bucket-node-prefix" {
   description = "Cloud init file prefix in s3 bucket"
-  default     = "worker-cloud-init"
+  default     = "node-cloud-init"
 }
 
 variable "security-group-id" {}
@@ -49,10 +49,10 @@ variable "tls-ca-private-key-algorithm" {}
 variable "tls-ca-private-key-pem" {}
 variable "tls-ca-self-signed-cert-pem" {}
 variable "vpc-id" {}
-variable "worker-name" {}
+variable "node-name" {}
 
 output "autoscaling-group-name" {
-  value = "${ aws_autoscaling_group.worker.name }"
+  value = "${ aws_autoscaling_group.node.name }"
 }
 
 output "depends-id" {

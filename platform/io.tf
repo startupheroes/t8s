@@ -42,3 +42,17 @@ output "subnet-ids-private" {
 output "subnet-ids-public" {
   value = "${ module.vpc.subnet-ids-public }"
 }
+
+output "platform" {
+  value = "${
+    map(
+      "azs", "${ var.aws["azs"] }",
+      "depends-id", "${module.vpc.depends-id}",
+      "name", "${var.name}",
+      "region", "${var.aws["region"]}",
+      "subnet-ids-private", "${ module.vpc.subnet-ids-private }",
+      "subnet-ids-public", "${ module.vpc.subnet-ids-public }",
+      "vpc-id", "${module.vpc.id}"
+    )
+  }"
+}

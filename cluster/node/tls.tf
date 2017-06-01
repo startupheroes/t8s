@@ -1,4 +1,4 @@
-resource "tls_private_key" "worker" {
+resource "tls_private_key" "node" {
   algorithm = "RSA"
   rsa_bits  = "2048"
 
@@ -7,9 +7,9 @@ resource "tls_private_key" "worker" {
   }
 }
 
-resource "tls_cert_request" "worker" {
-  key_algorithm   = "${tls_private_key.worker.algorithm}"
-  private_key_pem = "${tls_private_key.worker.private_key_pem}"
+resource "tls_cert_request" "node" {
+  key_algorithm   = "${tls_private_key.node.algorithm}"
+  private_key_pem = "${tls_private_key.node.private_key_pem}"
 
   subject {
     common_name = "kube-apiserver"
@@ -26,8 +26,8 @@ resource "tls_cert_request" "worker" {
   ]
 }
 
-resource "tls_locally_signed_cert" "worker" {
-  cert_request_pem      = "${tls_cert_request.worker.cert_request_pem}"
+resource "tls_locally_signed_cert" "node" {
+  cert_request_pem      = "${tls_cert_request.node.cert_request_pem}"
   ca_key_algorithm      = "${var.tls-ca-private-key-algorithm}"
   ca_private_key_pem    = "${var.tls-ca-private-key-pem}"
   ca_cert_pem           = "${var.tls-ca-self-signed-cert-pem}"

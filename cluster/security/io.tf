@@ -19,6 +19,6 @@ output "external-elb-id" {
   value = "${ aws_security_group.external-elb.id }"
 }
 
-output "worker-id" {
-  value = "${ aws_security_group.worker.id }"
+output "node-id" {
+  value = "${ aws_security_group.node.id }"
 }

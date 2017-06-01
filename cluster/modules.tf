@@ -111,27 +111,27 @@ module "master" {
   tls-ca-self-signed-cert-pem    = "${ module.tls.tls-self-signed-cert-pem }"
 }
 
-module "worker" {
-  source = "worker"
+module "node" {
+  source = "node"
 
   # variables
   aws            = "${ var.aws }"
   capacity       = "${ var.capacity }"
   cluster-domain = "${ var.cluster-domain }"
   dns-service-ip = "${ var.dns-service-ip }"
-  instance-type  = "${ var.instance-type["worker"] }"
+  instance-type  = "${ var.instance-type["node"] }"
   internal-tld   = "${ var.internal-tld }"
   k8s            = "${ var.k8s }"
   name           = "${ var.name }"
   subnet-id      = "${ element( split(",", var.subnet-ids-private), 0 ) }"
   volume_size    = "${ var.volume-size }"
   vpc-id         = "${ var.vpc-id }"
-  worker-name    = "general"
+  node-name    = "general"
 
   # modules
   ami-id                       = "${ module.ami.ami_id }"
-  instance-profile-name        = "${ module.iam.instance-profile-name-worker }"
-  security-group-id            = "${ module.security.worker-id }"
+  instance-profile-name        = "${ module.iam.instance-profile-name-node }"
+  security-group-id            = "${ module.security.node-id }"
   s3-bucket                    = "${ module.s3.bucket }"
   tls-ca-private-key-algorithm = "${ module.tls.tls-ca-private-key-algorithm }"
   tls-ca-private-key-pem       = "${ module.tls.tls-ca-private-key-pem }"
@@ -162,5 +162,5 @@ module "manifest" {
   internal-tld   = "${var.internal-tld}"
 
   # module vars
-  worker-autoscaling-group-name = "${module.worker.autoscaling-group-name}"
+  node-autoscaling-group-name = "${module.node.autoscaling-group-name}"
 }

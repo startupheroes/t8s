@@ -1,5 +1,5 @@
-resource "aws_iam_role" "worker" {
-  name = "t8s-worker-${ var.name }"
+resource "aws_iam_role" "node" {
+  name = "t8s-node-${ var.name }"
 
   assume_role_policy = <<EOS
 {
@@ -17,15 +17,15 @@ resource "aws_iam_role" "worker" {
 EOS
 }
 
-resource "aws_iam_instance_profile" "worker" {
-  name = "t8s-worker-${ var.name }"
+resource "aws_iam_instance_profile" "node" {
+  name = "t8s-node-${ var.name }"
 
-  role = "${ aws_iam_role.worker.name }"
+  role = "${ aws_iam_role.node.name }"
 }
 
-resource "aws_iam_role_policy" "worker" {
-  name = "t8s-worker-${var.name}"
-  role = "${ aws_iam_role.worker.id }"
+resource "aws_iam_role_policy" "node" {
+  name = "t8s-node-${var.name}"
+  role = "${ aws_iam_role.node.id }"
 
   policy = <<EOS
 {
@@ -78,8 +78,8 @@ EOS
 
 resource "null_resource" "dummy_dependency" {
   depends_on = [
-    "aws_iam_role.worker",
-    "aws_iam_role_policy.worker",
-    "aws_iam_instance_profile.worker",
+    "aws_iam_role.node",
+    "aws_iam_role_policy.node",
+    "aws_iam_instance_profile.node",
   ]
 }
