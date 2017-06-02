@@ -31,7 +31,7 @@ provider "aws" {
 }
 
 module "platform" {
-  source                   = "../t8s/platform"
+  source                   = "github.com/startupheroes/t8s//platform?ref=v0.1.0"
 
   # variables
   aws                      = "${var.aws}"
@@ -41,7 +41,7 @@ module "platform" {
 }
 
 module "cluster-v2" {
-  source             = "../t8s/cluster"
+  source             = "github.com/startupheroes/t8s//cluster?ref=v0.1.0"
 
   # variables
   aws                = "${var.aws}"
