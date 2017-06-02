@@ -14,6 +14,7 @@ module "vpc" {
   # variables
   azs                      = "${ var.aws["azs"] }"
   cidr                     = "${ var.cidr-vpc }"
+  cidr-newbits             = "${ var.cidr-newbits}"
   cidr-offset-subnet       = "${ var.cidr-offset-subnet}"
   cidr-step-private-subnet = "${ var.cidr-step-private-subnet}"
   name                     = "${ var.name }"
