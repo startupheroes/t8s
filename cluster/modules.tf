@@ -126,7 +126,7 @@ module "node" {
   subnet-id      = "${ element( split(",", var.subnet-ids-private), 0 ) }"
   volume_size    = "${ var.volume-size }"
   vpc-id         = "${ var.vpc-id }"
-  node-name    = "general"
+  node-name      = "general"
 
   # modules
   ami-id                       = "${ module.ami.ami_id }"

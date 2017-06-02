@@ -10,8 +10,8 @@ data "template_file" "cloud-config" {
     internal-tld    = "${ var.internal-tld }"
     s3-bucket       = "${ var.s3-bucket }"
     region          = "${ var.aws["region"] }"
-    node-key      = "${base64encode(tls_private_key.node.private_key_pem)}"
-    node-pem      = "${base64encode(tls_locally_signed_cert.node.cert_pem)}"
+    node-key        = "${base64encode(tls_private_key.node.private_key_pem)}"
+    node-pem        = "${base64encode(tls_locally_signed_cert.node.cert_pem)}"
   }
 }
 

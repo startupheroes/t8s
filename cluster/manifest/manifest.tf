@@ -3,11 +3,11 @@ resource "template_dir" "manifest" {
   destination_dir = "${format(".cluster/%s/manifests", var.cluster-name)}"
 
   vars {
-    cluster-domain                = "${var.cluster-domain}"
-    cluster-name                  = "${var.cluster-name}"
-    dns-service-ip                = "${var.dns-service-ip}"
-    internal-tld                  = "${var.internal-tld}"
-    region                        = "${var.aws["region"]}"
+    cluster-domain              = "${var.cluster-domain}"
+    cluster-name                = "${var.cluster-name}"
+    dns-service-ip              = "${var.dns-service-ip}"
+    internal-tld                = "${var.internal-tld}"
+    region                      = "${var.aws["region"]}"
     node-autoscaling-group-name = "${var.node-autoscaling-group-name}"
   }
 }
