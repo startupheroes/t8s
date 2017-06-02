@@ -1,0 +1,11 @@
+apiVersion: v1
+metadata:
+  namespace: kube-system
+  name: kube-system-config
+data:
+  AWS_REGION: ${region}
+  CLUSTER_DOMAIN: ${cluster-domain}
+  DNS_SERVICE_IP: ${dns-service-ip}
+  INTERNAL_TLD: ${internal-tld}
+  NODE_ASG_NAME: ${node-autoscaling-group-name}
+kind: ConfigMap

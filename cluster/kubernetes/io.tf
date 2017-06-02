@@ -1,4 +1,5 @@
 variable "cluster-name" {}
+variable "depends-id" {}
 variable "external-elb" {}
 
 variable "tls-ca-private-key-algorithm" {}
