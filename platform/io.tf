@@ -14,6 +14,10 @@ variable "cidr-offset-subnet" {
   default = "0"
 }
 
+variable "cidr-newbits" {
+  default = "8"
+}
+
 # outputs
 output "azs" {
   value = "${ var.aws["azs"] }"

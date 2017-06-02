@@ -13,7 +13,7 @@ resource "aws_subnet" "public" {
   count = "${ length( split(",", var.azs) ) }"
 
   availability_zone = "${ element( split(",", var.azs), var.cidr-offset-subnet + count.index ) }"
-  cidr_block        = "${ cidrsubnet(var.cidr, 8, var.cidr-offset-subnet + count.index) }"
+  cidr_block        = "${ cidrsubnet(var.cidr, var.cidr-newbits, var.cidr-offset-subnet + count.index) }"
   vpc_id            = "${ aws_vpc.main.id }"
 
   tags {
