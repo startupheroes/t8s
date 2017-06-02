@@ -31,7 +31,7 @@ variable "k8s" {
 
   default = {
     hyperkube-image = "quay.io/coreos/hyperkube"
-    hyperkube-tag   = "v1.6.2_coreos.0"
+    hyperkube-tag   = "v1.6.4_coreos.0"
   }
 }
 
@@ -39,7 +39,7 @@ variable "cidr" {
   type = "map"
 
   default = {
-    vpc             = "192.168.230.0/16"
+    vpc             = "10.0.0.0/16"
     allow-ssh       = "0.0.0.0/0"
     pods            = "10.2.0.0/16"
     service-cluster = "10.3.0.0/24"
