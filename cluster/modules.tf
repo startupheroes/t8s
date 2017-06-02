@@ -145,6 +145,7 @@ module "k8s" {
   cluster-name = "${ var.name }"
 
   # modules
+  depends-id = "${module.manifest.depends-id}"
   external-elb                 = "${module.master.external-elb}"
   tls-ca-private-key-algorithm = "${module.tls.tls-ca-private-key-algorithm}"
   tls-ca-private-key-pem       = "${module.tls.tls-ca-private-key-pem}"

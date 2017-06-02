@@ -1,6 +1,6 @@
 resource "template_dir" "manifest" {
   source_dir      = "${path.module}/templates"
-  destination_dir = "${format(".cluster/%s/manifests", var.cluster-name)}"
+  destination_dir = "${format("%s/.cluster/%s/manifests", path.root, var.cluster-name)}"
 
   vars {
     cluster-domain              = "${var.cluster-domain}"
