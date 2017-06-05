@@ -13,6 +13,7 @@ variable "external-elb-security-group-id" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
 variable "internal-tld" {}
+variable "enable-api-batch-v2alpha1" {}
 
 variable "ip-k8s-service" {}
 

@@ -86,6 +86,10 @@ variable "aws" {
   }
 }
 
+variable "enable-api-batch-v2alpha1" {
+  default = false
+}
+
 # outputs
 output "cluster-domain" {
   value = "${ var.cluster-domain }"
