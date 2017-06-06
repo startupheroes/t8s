@@ -1,4 +1,4 @@
-resource "null_resource" "waiting-clustter-null-resource" {
+resource "null_resource" "waiting-cluster-null-resource" {
   triggers {
     test = "${var.cluster-name}"
   }
@@ -24,7 +24,7 @@ resource "local_file" "admin-file" {
 }
 
 resource "null_resource" "id_rsa_file" {
-  depends_on = ["null_resource.waiting-clustter-null-resource"]
+  depends_on = ["null_resource.waiting-cluster-null-resource"]
 
   triggers {
     test = "${var.cluster-name}"
