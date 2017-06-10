@@ -19,6 +19,7 @@ coreos:
         - name: 10-environment.conf
           content: |
             [Service]
+            Environment="ETCD_IMAGE_TAG=v3.0.17"
             Environment="ETCD_ADVERTISE_CLIENT_URLS=https://${ fqdn }:2379"
             Environment="ETCD_CERT_FILE=/etc/ssl/certs/k8s-etcd.pem"
             Environment="ETCD_CLIENT_CERT_AUTH=true"
@@ -222,6 +223,7 @@ write-files:
           command:
           - /hyperkube
           - apiserver
+          - --storage-backend=etcd2
           - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
           - --advertise-address=$private_ipv4
           - --apiserver-count=${ apiserver-count }
