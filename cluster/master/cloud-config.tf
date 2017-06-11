@@ -10,6 +10,7 @@ data "template_file" "cloud-config" {
     dns-service-ip            = "${ var.dns-service-ip }"
     external-elb              = "${ aws_elb.external.dns_name }"
     etcd-version              = "${ var.etcd-version }"
+    etcd-storage-backend      = "${ var.etcd-storage-backend }"
     fqdn                      = "etcd${ count.index + 1 }.${ var.internal-tld }"
     hostname                  = "etcd${ count.index + 1 }"
     hyperkube                 = "${ var.k8s["hyperkube-image"] }:${ var.k8s["hyperkube-tag"] }"
@@ -34,6 +35,7 @@ data "template_file" "cloud-config-fetcher" {
   template = "${ file( "${ path.module }/cloud-config-fetcher.yml" )}"
 
   vars {
+    region             = "${ var.aws["region"] }"
     s3-bucket          = "${ var.s3-bucket }"
     s3-cloud-init-file = "${ format("%s-%d-cloud-config.yml", var.s3-bucket-master-prefix, count.index) }"
   }

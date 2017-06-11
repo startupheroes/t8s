@@ -26,7 +26,7 @@ write-files:
         --trust-keys-from-https \
         --volume=dns,kind=host,source=/etc/resolv.conf,readOnly=true --mount volume=dns,target=/etc/resolv.conf \
         --volume=ssl,kind=host,source=/etc/systemd/system,readOnly=false --mount=volume=ssl,target=/etc/systemd/system \
-        quay.io/coreos/awscli -- aws s3 cp s3://${ s3-bucket }/$1 /etc/systemd/system
+        quay.io/coreos/awscli -- aws s3 cp s3://${ s3-bucket }/$1 /etc/systemd/system --region ${ region }
       do
         echo "retrying"
         sleep 5.2
