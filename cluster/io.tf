@@ -86,6 +86,18 @@ variable "aws" {
   }
 }
 
+variable "etcd-storage-backend" {
+  default = "etcd3"
+}
+
+variable "version" {
+  type = "map"
+
+  default = {
+    etcd = "3.0.17"
+  }
+}
+
 variable "enable-api-batch-v2alpha1" {
   default = false
 }

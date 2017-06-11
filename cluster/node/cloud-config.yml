@@ -11,6 +11,19 @@ coreos:
 
   units:
 
+    - name: download-etcdctl3.service
+      command: start
+      content: |
+        [Unit]
+        After=network-online.target
+        Requires=network-online.target
+        Before=etcd-member.service
+        Description=Download etcdctl3
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/opt/bin/download-etcdctl-v3 ${ etcd-version }
+
     - name: etcd-member.service
       command: start
       drop-ins:
@@ -184,6 +197,10 @@ write-files:
       ETCDCTL_CA_FILE=/etc/kubernetes/ssl/ca.pem
       ETCDCTL_CERT_FILE=/etc/kubernetes/ssl/k8s-node.pem
       ETCDCTL_KEY_FILE=/etc/kubernetes/ssl/k8s-node-key.pem
+      ETCDCTL_DIAL_TIMEOUT=3s
+      ETCDCTL_CACERT=/etc/kubernetes/ssl/ca.pem
+      ETCDCTL_CERT=/etc/kubernetes/ssl/k8s-etcd.pem
+      ETCDCTL_KEY=/etc/kubernetes/ssl/k8s-etcd-key.pem
 
   - path: /opt/bin/host-rkt
     permissions: 0755

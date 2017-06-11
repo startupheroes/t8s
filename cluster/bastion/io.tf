@@ -2,6 +2,7 @@ variable "ami-id" {}
 variable "depends-id" {}
 variable "instance-type" {}
 variable "internal-tld" {}
+variable "etcd-version" {}
 variable "key-name" {}
 variable "name" {}
 variable "security-group-id" {}

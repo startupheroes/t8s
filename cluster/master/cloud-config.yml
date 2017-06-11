@@ -12,6 +12,19 @@ coreos:
 
   units:
 
+    - name: download-etcdctl3.service
+      command: start
+      content: |
+        [Unit]
+        After=network-online.target
+        Requires=network-online.target
+        Before=etcd-member.service
+        Description=Download etcdctl3
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/opt/bin/download-etcdctl-v3 ${ etcd-version }
+
     - name: etcd-member.service
       command: start
       drop-ins:
@@ -19,7 +32,7 @@ coreos:
         - name: 10-environment.conf
           content: |
             [Service]
-            Environment="ETCD_IMAGE_TAG=v3.0.17"
+            Environment="ETCD_IMAGE_TAG=v${ etcd-version }"
             Environment="ETCD_ADVERTISE_CLIENT_URLS=https://${ fqdn }:2379"
             Environment="ETCD_CERT_FILE=/etc/ssl/certs/k8s-etcd.pem"
             Environment="ETCD_CLIENT_CERT_AUTH=true"
@@ -183,7 +196,10 @@ write-files:
       ETCDCTL_CERT_FILE=/etc/kubernetes/ssl/k8s-etcd.pem
       ETCDCTL_KEY_FILE=/etc/kubernetes/ssl/k8s-etcd-key.pem
       ETCDCTL_ENDPOINT=https://${ fqdn }:2379
-
+      ETCDCTL_DIAL_TIMEOUT=3s
+      ETCDCTL_CACERT=/etc/kubernetes/ssl/ca.pem
+      ETCDCTL_CERT=/etc/kubernetes/ssl/k8s-etcd.pem
+      ETCDCTL_KEY=/etc/kubernetes/ssl/k8s-etcd-key.pem
   - path: /opt/bin/host-rkt
     permissions: 0755
     owner: root:root
@@ -223,7 +239,7 @@ write-files:
           command:
           - /hyperkube
           - apiserver
-          - --storage-backend=etcd2
+          - --storage-backend=${ etcd-storage-backend }
           - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
           - --advertise-address=$private_ipv4
           - --apiserver-count=${ apiserver-count }
@@ -400,3 +416,14 @@ write-files:
                 "isDefaultGateway": true
             }
         }
+
+  - path: /opt/bin/download-etcdctl-v3
+    permissions: 0755
+    owner: root:root
+    content: |
+      #!/bin/bash -e
+      curl -o etcd.tar.gz -SL https://github.com/coreos/etcd/releases/download/v$1/etcd-v$1-linux-amd64.tar.gz
+      tar -zxvf etcd.tar.gz etcd-v$1-linux-amd64/etcdctl
+      mv etcd-v$1-linux-amd64/etcdctl /opt/bin/etcdctl3
+      chmod +x /opt/bin/etcdctl3
+      rm -rf  etcd-v$1-linux-amd64 etcd.tar.gz

@@ -17,6 +17,7 @@ variable "capacity" {
 variable "cluster-domain" {}
 variable "dns-service-ip" {}
 
+variable "etcd-version" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
 variable "internal-tld" {}

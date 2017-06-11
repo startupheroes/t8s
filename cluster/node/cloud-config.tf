@@ -5,6 +5,7 @@ data "template_file" "cloud-config" {
     ca-pem          = "${base64encode(var.tls-ca-self-signed-cert-pem)}"
     cluster-domain  = "${ var.cluster-domain }"
     dns-service-ip  = "${ var.dns-service-ip }"
+    etcd-version    = "${ var.etcd-version }"
     hyperkube-image = "${ var.k8s["hyperkube-image"] }"
     hyperkube-tag   = "${ var.k8s["hyperkube-tag"] }"
     internal-tld    = "${ var.internal-tld }"

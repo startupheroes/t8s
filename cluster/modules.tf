@@ -65,6 +65,7 @@ module "bastion" {
   depends-id = "${ var.vpc-id }"
 
   # variables
+  etcd-version  = "${ var.version["etcd"]}"
   instance-type = "${ var.instance-type["bastion"] }"
   internal-tld  = "${ var.internal-tld }"
   key-name      = "${ var.aws["key-name"] }"
@@ -89,6 +90,8 @@ module "master" {
   cluster-domain            = "${ var.cluster-domain }"
   dns-service-ip            = "${ var.dns-service-ip }"
   enable-api-batch-v2alpha1 = "${ var.enable-api-batch-v2alpha1 }"
+  etcd-version              = "${ var.version["etcd"] }"
+  etcd-storage-backend      = "${ var.etcd-storage-backend }"
   instance-type             = "${ var.instance-type["etcd"] }"
   internal-tld              = "${ var.internal-tld }"
   ip-k8s-service            = "${ var.k8s-service-ip }"
@@ -120,6 +123,7 @@ module "node" {
   capacity       = "${ var.capacity }"
   cluster-domain = "${ var.cluster-domain }"
   dns-service-ip = "${ var.dns-service-ip }"
+  etcd-version   = "${ var.version["etcd"] }"
   instance-type  = "${ var.instance-type["node"] }"
   internal-tld   = "${ var.internal-tld }"
   k8s            = "${ var.k8s }"

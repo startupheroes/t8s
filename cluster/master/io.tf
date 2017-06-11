@@ -6,6 +6,8 @@ variable "aws" {
 
 variable "cluster-domain" {}
 variable "dns-service-ip" {}
+variable "etcd-version" {}
+variable "etcd-storage-backend" {}
 variable "master-count" {}
 variable "master-ips" {}
 variable "etcd-security-group-id" {}
