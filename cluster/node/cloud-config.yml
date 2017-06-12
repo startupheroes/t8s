@@ -201,6 +201,9 @@ write-files:
       ETCDCTL_CACERT=/etc/kubernetes/ssl/ca.pem
       ETCDCTL_CERT=/etc/kubernetes/ssl/k8s-etcd.pem
       ETCDCTL_KEY=/etc/kubernetes/ssl/k8s-etcd-key.pem
+      ETCDCTL_CACERT=/etc/kubernetes/ssl/ca.pem
+      ETCDCTL_CERT=/etc/kubernetes/ssl/k8s-node.pem
+      ETCDCTL_KEY=/etc/kubernetes/ssl/k8s-node-key.pem
 
   - path: /opt/bin/host-rkt
     permissions: 0755
@@ -326,3 +329,14 @@ write-files:
                 "isDefaultGateway": true
             }
         }
+
+  - path: /opt/bin/download-etcdctl-v3
+    permissions: 0755
+    owner: root:root
+    content: |
+      #!/bin/bash -e
+      curl -o etcd.tar.gz -SL https://github.com/coreos/etcd/releases/download/v$1/etcd-v$1-linux-amd64.tar.gz
+      tar -zxvf etcd.tar.gz etcd-v$1-linux-amd64/etcdctl
+      mv etcd-v$1-linux-amd64/etcdctl /opt/bin/etcdctl3
+      chmod +x /opt/bin/etcdctl3
+      rm -rf  etcd-v$1-linux-amd64 etcd.tar.gz
