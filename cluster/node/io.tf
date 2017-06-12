@@ -35,7 +35,7 @@ variable "s3-bucket-node-prefix" {
 }
 
 variable "security-group-id" {}
-variable "subnet-id" {}
+variable "subnet-ids" {}
 
 variable "volume_size" {
   type = "map"

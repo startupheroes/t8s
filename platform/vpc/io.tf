@@ -30,3 +30,11 @@ output "subnet-ids-private" {
 output "subnet-ids-public" {
   value = "${ join(",", aws_subnet.public.*.id) }"
 }
+
+output "subnet-ids-private-cidr" {
+  value = "${ join(",", aws_subnet.private.*.cidr_block) }"
+}
+
+output "subnet-ids-public-cidr" {
+  value = "${ join(",", aws_subnet.public.*.cidr_block) }"
+}

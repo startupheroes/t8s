@@ -128,10 +128,10 @@ module "node" {
   internal-tld   = "${ var.internal-tld }"
   k8s            = "${ var.k8s }"
   name           = "${ var.name }"
-  subnet-id      = "${ element( split(",", var.subnet-ids-private), 0 ) }"
+  node-name      = "general"
+  subnet-ids     = "${ var.subnet-ids-private }"
   volume_size    = "${ var.volume-size }"
   vpc-id         = "${ var.vpc-id }"
-  node-name      = "general"
 
   # modules
   ami-id                       = "${ module.ami.ami_id }"

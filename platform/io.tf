@@ -43,8 +43,16 @@ output "subnet-ids-private" {
   value = "${ module.vpc.subnet-ids-private }"
 }
 
+output "subnet-ids-private-cidr" {
+  value = "${ module.vpc.subnet-ids-private-cidr }"
+}
+
 output "subnet-ids-public" {
   value = "${ module.vpc.subnet-ids-public }"
+}
+
+output "subnet-ids-public-cidr" {
+  value = "${ module.vpc.subnet-ids-public-cidr }"
 }
 
 output "platform" {
@@ -56,6 +64,8 @@ output "platform" {
       "region", "${var.aws["region"]}",
       "subnet-ids-private", "${ module.vpc.subnet-ids-private }",
       "subnet-ids-public", "${ module.vpc.subnet-ids-public }",
+      "subnet-ids-private-cidr", "${ module.vpc.subnet-ids-private-cidr }",
+      "subnet-ids-public-cidr", "${ module.vpc.subnet-ids-public-cidr }",
       "vpc-id", "${module.vpc.id}"
     )
   }"

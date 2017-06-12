@@ -37,7 +37,7 @@ resource "aws_autoscaling_group" "node" {
   launch_configuration      = "${ aws_launch_configuration.node.name }"
   max_size                  = "${ var.capacity["max"] }"
   min_size                  = "${ var.capacity["min"] }"
-  vpc_zone_identifier       = ["${ var.subnet-id }"]
+  vpc_zone_identifier       = ["${ split(",", var.subnet-ids) }"]
 
   tag {
     key                 = "builtWith"
