@@ -131,6 +131,10 @@ output "node-autoscaling-group-name" {
   value = "${ module.node.autoscaling-group-name }"
 }
 
+output "route-53-zone-id" {
+  value = "${ module.route53.internal-zone-id }"
+}
+
 output "cluster" {
   value = "${
     map(
@@ -139,7 +143,8 @@ output "cluster" {
       "node-autoscaling-group-name", "${ module.node.autoscaling-group-name }",
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",
-      "master1-ip", "${ module.vpc.master-ips }"
+      "master1-ip", "${ module.vpc.master-ips }",
+      "zone-id", "${ module.route53.internal-zone-id }"
     )
   }"
 }
