@@ -92,7 +92,7 @@ module "master" {
   enable-api-batch-v2alpha1 = "${ var.enable-api-batch-v2alpha1 }"
   etcd-version              = "${ var.version["etcd"] }"
   etcd-storage-backend      = "${ var.etcd-storage-backend }"
-  instance-type             = "${ var.instance-type["etcd"] }"
+  instance-type             = "${ var.instance-type["master"] }"
   internal-tld              = "${ var.internal-tld }"
   ip-k8s-service            = "${ var.k8s-service-ip }"
   k8s                       = "${ var.k8s }"

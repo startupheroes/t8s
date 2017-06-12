@@ -51,7 +51,7 @@ variable "instance-type" {
 
   default = {
     bastion = "t2.nano"
-    etcd    = "m3.large"
+    master  = "m3.large"
     node    = "m3.large"
   }
 }
