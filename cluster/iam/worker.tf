@@ -1,5 +1,5 @@
 resource "aws_iam_role" "node" {
-  name = "t8s-node-${ var.name }"
+  name = "t8s-node-${ var.cluster["cluster-id"] }"
 
   assume_role_policy = <<EOS
 {
@@ -18,13 +18,14 @@ EOS
 }
 
 resource "aws_iam_instance_profile" "node" {
-  name = "t8s-node-${ var.name }"
+  name = "t8s-node-${ var.cluster["cluster-id"] }"
 
   role = "${ aws_iam_role.node.name }"
 }
 
 resource "aws_iam_role_policy" "node" {
-  name = "t8s-node-${var.name}"
+  name = "t8s-node-${ var.cluster["cluster-id"] }"
+
   role = "${ aws_iam_role.node.id }"
 
   policy = <<EOS

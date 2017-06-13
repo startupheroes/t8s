@@ -1,6 +1,18 @@
 variable "cidr-allow-ssh" {}
 variable "cidr-vpc" {}
-variable "name" {}
+
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name         = ""
+    version      = ""
+    cluster-id   = ""
+    internal-tld = ""
+    root-internal-tld = ""
+  }
+}
+
 variable "vpc-id" {}
 
 output "depends-id" {

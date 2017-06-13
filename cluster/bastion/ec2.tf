@@ -8,11 +8,14 @@ resource "aws_instance" "bastion" {
   subnet_id         = "${ var.subnet-id }"
 
   tags {
-    builtWith  = "terraform"
-    t8s        = "${ var.name }"
-    depends-id = "${ var.depends-id }"
-    Name       = "t8s-bastion"
-    role       = "bastion"
+    builtWith         = "terraform"
+    KubernetesCluster = "${ var.cluster["name"] }"
+    t8s               = "${ var.cluster["cluster-id"] }"
+    depends-id        = "${ var.depends-id }"
+    Name              = "t8s-bastion-${ var.cluster["name"] }"
+    Version           = "${ var.cluster["version"] }"
+    role              = "bastion"
+    visibility        = "public"
   }
 
   user_data = "${ data.template_file.cloud-config.rendered }"

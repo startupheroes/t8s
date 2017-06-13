@@ -15,13 +15,14 @@ resource "aws_security_group" "bastion" {
     cidr_blocks = ["${ var.cidr-allow-ssh }"]
   }
 
-  name = "t8s-bastion-${ var.name }"
+  name = "t8s-bastion-${ var.cluster["cluster-id"] }"
 
   tags {
-    KubernetesCluster = "${ var.name }"
-    t8s               = "${ var.name }"
-    Name              = "t8s-bastion-${ var.name }"
     builtWith         = "terraform"
+    KubernetesCluster = "${ var.cluster["name"] }"
+    t8s               = "${ var.cluster["cluster-id"] }"
+    Name              = "t8s-bastion-${ var.cluster["name"] }"
+    Version           = "${ var.cluster["version"] }"
   }
 
   vpc_id = "${ var.vpc-id }"
@@ -47,20 +48,21 @@ resource "aws_security_group" "master" {
     cidr_blocks = ["${ var.cidr-vpc }"]
   }
 
-  name = "t8s-etcd-${ var.name }"
+  name = "t8s-etcd-${ var.cluster["cluster-id"] }"
 
   tags {
-    KubernetesCluster = "${ var.name }"
-    t8s               = "${ var.name }"
-    Name              = "t8s-etcd-${ var.name }"
     builtWith         = "terraform"
+    KubernetesCluster = "${ var.cluster["name"] }"
+    t8s               = "${ var.cluster["cluster-id"] }"
+    Name              = "t8s-etcd-${ var.cluster["name"] }"
+    Version           = "${ var.cluster["version"] }"
   }
 
   vpc_id = "${ var.vpc-id }"
 }
 
 resource "aws_security_group" "external-elb" {
-  description = "t8s-${ var.name } master (apiserver) external elb"
+  description = "t8s-${ var.cluster["name"] } master (apiserver) external elb"
 
   egress {
     from_port = 0
@@ -85,13 +87,14 @@ resource "aws_security_group" "external-elb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  name = "t8s-master-external-elb-${ var.name }"
+  name = "t8s-master-external-elb-${ var.cluster["name"] }"
 
   tags {
-    KubernetesCluster = "${ var.name }"
-    t8s               = "${ var.name }"
-    Name              = "t8s-master-external-elb-${ var.name }"
     builtWith         = "terraform"
+    KubernetesCluster = "${ var.cluster["name"] }"
+    t8s               = "${ var.cluster["cluster-id"] }"
+    Name              = "t8s-master-external-elb-${ var.cluster["name"] }"
+    Version           = "${ var.cluster["version"] }"
   }
 
   vpc_id = "${ var.vpc-id }"
@@ -117,13 +120,14 @@ resource "aws_security_group" "node" {
     cidr_blocks = ["${ var.cidr-vpc }"]
   }
 
-  name = "t8s-node-${ var.name }"
+  name = "t8s-node-${ var.cluster["cluster-id"] }"
 
   tags {
-    KubernetesCluster = "${ var.name }"
-    t8s               = "${ var.name }"
-    Name              = "t8s-node-${ var.name }"
     builtWith         = "terraform"
+    KubernetesCluster = "${ var.cluster["name"] }"
+    t8s               = "${ var.cluster["cluster-id"] }"
+    Name              = "t8s-node-${ var.cluster["name"] }"
+    Version           = "${ var.cluster["version"] }"
   }
 
   vpc_id = "${ var.vpc-id }"

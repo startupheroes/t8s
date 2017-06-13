@@ -1,5 +1,5 @@
 resource "aws_iam_role" "master" {
-  name = "t8s-master-${ var.name }"
+  name = "t8s-master-${ var.cluster["cluster-id"] }"
 
   assume_role_policy = <<EOS
 {
@@ -16,13 +16,13 @@ EOS
 }
 
 resource "aws_iam_instance_profile" "master" {
-  name = "t8s-master-${ var.name }"
+  name = "t8s-master-${ var.cluster["cluster-id"] }"
 
   role = "${ aws_iam_role.master.name }"
 }
 
 resource "aws_iam_role_policy" "master" {
-  name = "t8s-master-${ var.name }"
+  name = "t8s-master-${ var.cluster["cluster-id"] }"
 
   policy = <<EOS
 {

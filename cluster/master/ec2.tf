@@ -18,11 +18,12 @@ resource "aws_instance" "master" {
 
   tags {
     builtWith         = "terraform"
-    KubernetesCluster = "${ var.name }"
-    t8s               = "${ var.name }"
-    Name              = "t8s-etcd${ count.index + 1 }"
+    KubernetesCluster = "${ var.cluster["name"] }"
+    t8s               = "${ var.cluster["cluster-id"] }"
     role              = "etcd,apiserver"
-    version           = "${ var.k8s["hyperkube-tag"] }"
+    Name              = "t8s-etcd${ count.index + 1 }"
+    Version           = "${ var.cluster["version"] }"
+    k8s-version       = "${ var.k8s["hyperkube-tag"] }"
     visibility        = "private"
   }
 
