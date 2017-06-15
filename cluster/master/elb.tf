@@ -1,5 +1,5 @@
 resource "aws_elb" "external" {
-  name = "t8s-apiserver-${replace(var.name, "/(.{0,17})(.*)/", "$1")}"
+  name = "t8s-apiserver-${replace(var.cluster["cluster-id"], "/[[:^alnum:]]/", "")}"
 
   cross_zone_load_balancing = false
 
@@ -25,12 +25,13 @@ resource "aws_elb" "external" {
 
   tags {
     builtWith         = "terraform"
-    t8s               = "${ var.name }i"
+    KubernetesCluster = "${ var.cluster["name"] }"
+    t8s               = "${ var.cluster["cluster-id"] }"
+    Version           = "${ var.cluster["version"] }"
     Name              = "t8s-apiserver"
     role              = "apiserver"
-    version           = "${ var.k8s["hyperkube-tag"] }"
+    k8s-version       = "${ var.k8s["hyperkube-tag"] }"
     visibility        = "public"
-    KubernetesCluster = "${ var.name }"
   }
 }
 

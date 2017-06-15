@@ -14,7 +14,6 @@ variable "etcd-security-group-id" {}
 variable "external-elb-security-group-id" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
-variable "internal-tld" {}
 variable "enable-api-batch-v2alpha1" {}
 
 variable "ip-k8s-service" {}
@@ -23,7 +22,18 @@ variable "k8s" {
   type = "map"
 }
 
-variable "name" {}
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name         = ""
+    version      = ""
+    cluster-id   = ""
+    internal-tld = ""
+    root-internal-tld = ""
+  }
+}
+
 variable "s3-bucket" {}
 
 variable "s3-bucket-master-prefix" {

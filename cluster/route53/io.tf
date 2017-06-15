@@ -1,9 +1,23 @@
 variable "depends-id" {}
-variable "internal-tld" {}
 variable "master-count" {}
 variable "master-ips" {}
-variable "name" {}
 variable "vpc-id" {}
+
+variable "internal-zone-id" {
+  default = ""
+}
+
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name              = ""
+    version           = ""
+    cluster-id        = ""
+    internal-tld      = ""
+    root-internal-tld = ""
+  }
+}
 
 output "depends-id" {
   value = "${null_resource.dummy_dependency.id}"
@@ -13,6 +27,6 @@ output "internal-name-servers" {
   value = "${ aws_route53_zone.internal.name_servers }"
 }
 
-output "internal-zone-id" {
-  value = "${ aws_route53_zone.internal.zone_id }"
+output "cluster-internal-zone-id" {
+  value = "${ null_resource.interpolated_id.triggers.zone-id }"
 }

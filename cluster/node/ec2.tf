@@ -28,7 +28,7 @@ resource "aws_launch_configuration" "node" {
 }
 
 resource "aws_autoscaling_group" "node" {
-  name = "node-${ var.node-name }-${ var.name }"
+  name = "node-${ var.node-name }-${ var.cluster["cluster-id"] }"
 
   desired_capacity          = "${ var.capacity["desired"] }"
   health_check_grace_period = 60
@@ -48,13 +48,19 @@ resource "aws_autoscaling_group" "node" {
   # used by kubelet's aws provider to determine cluster
   tag {
     key                 = "KubernetesCluster"
-    value               = "${ var.name }"
+    value               = "${ var.cluster["name"] }"
     propagate_at_launch = true
   }
 
   tag {
     key                 = "t8s"
-    value               = "${ var.name }"
+    value               = "${ var.cluster["cluster-id"] }"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Version"
+    value               = "${ var.cluster["version"] }"
     propagate_at_launch = true
   }
 
@@ -71,7 +77,7 @@ resource "aws_autoscaling_group" "node" {
   }
 
   tag {
-    key                 = "version"
+    key                 = "k8s-version"
     value               = "${ var.k8s["hyperkube-tag"] }"
     propagate_at_launch = true
   }

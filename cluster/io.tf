@@ -1,6 +1,18 @@
-variable "name" {}
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name    = ""
+    version = ""
+  }
+}
+
 variable "depends-id" {}
-variable "internal-tld" {}
+variable "root-internal-tld" {}
+
+variable "internal-zone-id" {
+  default = ""
+}
 
 variable "cluster-domain" {
   default = "cluster.local"
@@ -112,7 +124,7 @@ output "dns-service-ip" {
 }
 
 output "master1-ip" {
-  value = "${ element( split(",", module.vpc.master-ips), 0 ) }"
+  value = "${ element( split(",", module.iv.master-ips), 0 ) }"
 }
 
 output "bastion-ip" {
@@ -123,8 +135,8 @@ output "external-elb" {
   value = "${ module.master.external-elb }"
 }
 
-output "internal-tld" {
-  value = "${ var.internal-tld }"
+output "cluster-internal-tld" {
+  value = "${ module.iv.extended-cluster["internal-tld"] }"
 }
 
 output "node-autoscaling-group-name" {
@@ -132,19 +144,19 @@ output "node-autoscaling-group-name" {
 }
 
 output "route-53-zone-id" {
-  value = "${ module.route53.internal-zone-id }"
+  value = "${ module.route53.cluster-internal-zone-id }"
 }
 
 output "cluster" {
   value = "${
     map(
       "cluster-domain", "${ var.cluster-domain }",
-      "internal-tld", "${ var.internal-tld }",
+      "internal-tld", "${ module.iv.extended-cluster["internal-tld"] }",
       "node-autoscaling-group-name", "${ module.node.autoscaling-group-name }",
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",
-      "master1-ip", "${ module.vpc.master-ips }",
-      "zone-id", "${ module.route53.internal-zone-id }"
+      "master1-ip", "${ module.iv.master-ips }",
+      "zone-id", "${ module.route53.cluster-internal-zone-id }"
     )
   }"
 }

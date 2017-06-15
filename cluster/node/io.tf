@@ -20,13 +20,23 @@ variable "dns-service-ip" {}
 variable "etcd-version" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
-variable "internal-tld" {}
 
 variable "k8s" {
   type = "map"
 }
 
-variable "name" {}
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name         = ""
+    version      = ""
+    cluster-id   = ""
+    internal-tld = ""
+    root-internal-tld = ""
+  }
+}
+
 variable "s3-bucket" {}
 
 variable "s3-bucket-node-prefix" {

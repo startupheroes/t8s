@@ -1,4 +1,15 @@
-variable "cluster-name" {}
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name         = ""
+    version      = ""
+    cluster-id   = ""
+    internal-tld = ""
+    root-internal-tld = ""
+  }
+}
+
 variable "depends-id" {}
 variable "external-elb" {}
 

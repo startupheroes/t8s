@@ -1,4 +1,15 @@
-variable "name" {}
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name         = ""
+    version      = ""
+    cluster-id   = ""
+    internal-tld = ""
+    root-internal-tld = ""
+  }
+}
+
 variable "s3-bucket-arn" {}
 
 output "depends-id" {

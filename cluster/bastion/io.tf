@@ -1,10 +1,21 @@
 variable "ami-id" {}
 variable "depends-id" {}
 variable "instance-type" {}
-variable "internal-tld" {}
 variable "etcd-version" {}
 variable "key-name" {}
-variable "name" {}
+
+variable "cluster" {
+  type = "map"
+
+  default = {
+    name         = ""
+    version      = ""
+    cluster-id   = ""
+    internal-tld = ""
+    root-internal-tld = ""
+  }
+}
+
 variable "security-group-id" {}
 variable "subnet-id" {}
 variable "vpc-id" {}
