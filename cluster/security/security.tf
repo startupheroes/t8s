@@ -45,7 +45,7 @@ resource "aws_security_group" "master" {
     to_port     = 0
     protocol    = "-1"
     self        = true
-    cidr_blocks = ["${ var.cidr-vpc }"]
+    cidr_blocks = "${concat(list(var.cidr-vpc), compact(split(",", var.additional-cidr-blocks-master)))}"
   }
 
   name = "t8s-etcd-${ var.cluster["cluster-id"] }"
@@ -117,7 +117,7 @@ resource "aws_security_group" "node" {
     to_port     = 0
     protocol    = "-1"
     self        = true
-    cidr_blocks = ["${ var.cidr-vpc }"]
+    cidr_blocks = ["${concat(list(var.cidr-vpc), compact(split(",", var.additional-cidr-blocks-node)))}"]
   }
 
   name = "t8s-node-${ var.cluster["cluster-id"] }"

@@ -43,9 +43,11 @@ module "security" {
   source = "security"
 
   # variables
-  cidr-vpc       = "${ var.cidr["vpc"] }"
-  cidr-allow-ssh = "${ var.cidr["allow-ssh"] }"
-  cluster        = "${ module.iv.extended-cluster }"
+  cidr-vpc                      = "${ var.cidr["vpc"] }"
+  cidr-allow-ssh                = "${ var.cidr["allow-ssh"] }"
+  cluster                       = "${ module.iv.extended-cluster }"
+  additional-cidr-blocks-master = "${var.additional-cidr-blocks-master}"
+  additional-cidr-blocks-node   = "${var.additional-cidr-blocks-node}"
 
   # modules
   vpc-id = "${ var.vpc-id }"

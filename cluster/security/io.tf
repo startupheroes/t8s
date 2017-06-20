@@ -5,15 +5,19 @@ variable "cluster" {
   type = "map"
 
   default = {
-    name         = ""
-    version      = ""
-    cluster-id   = ""
-    internal-tld = ""
+    name              = ""
+    version           = ""
+    cluster-id        = ""
+    internal-tld      = ""
     root-internal-tld = ""
   }
 }
 
 variable "vpc-id" {}
+
+variable "additional-cidr-blocks-master" {}
+
+variable "additional-cidr-blocks-node" {}
 
 output "depends-id" {
   value = "${ null_resource.dummy_dependency.id }"

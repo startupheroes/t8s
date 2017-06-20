@@ -34,6 +34,14 @@ variable "k8s-service-ip" {
   default = "10.3.0.1"
 }
 
+variable "additional-cidr-blocks-master" {
+  default = ""
+}
+
+variable "additional-cidr-blocks-node" {
+  default = ""
+}
+
 variable "vpc-id" {}
 variable "subnet-ids-public" {}
 variable "subnet-ids-private" {}

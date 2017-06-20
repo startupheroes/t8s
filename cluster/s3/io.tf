@@ -6,10 +6,10 @@ variable "cluster" {
   type = "map"
 
   default = {
-    name         = ""
-    version      = ""
-    cluster-id   = ""
-    internal-tld = ""
+    name              = ""
+    version           = ""
+    cluster-id        = ""
+    internal-tld      = ""
     root-internal-tld = ""
   }
 }

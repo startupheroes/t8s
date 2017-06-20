@@ -44,6 +44,8 @@ resource "aws_route_table" "private" {
     Name              = "t8s-${ var.name }"
     visibility        = "private"
   }
+
+  propagating_vgws = ["${compact(split(",", var.propagating-vgws-private))}"]
 }
 
 resource "aws_route_table_association" "private" {

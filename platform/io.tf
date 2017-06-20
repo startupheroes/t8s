@@ -18,6 +18,10 @@ variable "cidr-newbits" {
   default = "8"
 }
 
+variable "propagating-vgws-private" {
+  default = ""
+}
+
 # outputs
 output "azs" {
   value = "${ var.aws["azs"] }"

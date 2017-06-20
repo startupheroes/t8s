@@ -18,5 +18,6 @@ module "vpc" {
   cidr-offset-subnet       = "${ var.cidr-offset-subnet}"
   cidr-step-private-subnet = "${ var.cidr-step-private-subnet}"
   name                     = "${ var.name }"
+  propagating-vgws-private = "${ var.propagating-vgws-private }"
   region                   = "${ var.aws["region"] }"
 }

@@ -6,6 +6,7 @@ variable "cidr-newbits" {}
 variable "depends-id" {}
 variable "name" {}
 variable "region" {}
+variable "propagating-vgws-private" {}
 
 output "depends-id" {
   value = "${null_resource.dummy_dependency.id}"
