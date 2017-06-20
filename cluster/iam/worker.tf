@@ -71,6 +71,17 @@ resource "aws_iam_role_policy" "node" {
         "autoscaling:TerminateInstanceInAutoScalingGroup"
       ],
       "Resource": "*"
+    },
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
     }
   ]
 }
