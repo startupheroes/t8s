@@ -29,7 +29,7 @@ resource "aws_security_group" "bastion" {
 }
 
 resource "aws_security_group" "master" {
-  description = "t8s etcd security group"
+  description = "t8s master security group"
 
   egress = {
     from_port = 0
@@ -48,7 +48,7 @@ resource "aws_security_group" "master" {
     cidr_blocks = "${concat(list(var.cidr-vpc), compact(split(",", var.additional-cidr-blocks-master)))}"
   }
 
-  name = "t8s-etcd-${ var.cluster["cluster-id"] }"
+  name = "t8s-master-${ var.cluster["cluster-id"] }"
 
   tags {
     builtWith         = "terraform"
