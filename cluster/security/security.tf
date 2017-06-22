@@ -54,7 +54,7 @@ resource "aws_security_group" "master" {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"
-    Name              = "t8s-etcd-${ var.cluster["name"] }"
+    Name              = "t8s-master-${ var.cluster["name"] }"
     Version           = "${ var.cluster["version"] }"
   }
 
