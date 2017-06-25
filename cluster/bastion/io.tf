@@ -3,6 +3,7 @@ variable "depends-id" {}
 variable "instance-type" {}
 variable "etcd-version" {}
 variable "key-name" {}
+variable "timezone" {}
 
 variable "cluster" {
   type = "map"

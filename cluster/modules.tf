@@ -69,6 +69,8 @@ module "bastion" {
   etcd-version  = "${ var.version["etcd"]}"
   instance-type = "${ var.instance-type["bastion"] }"
   key-name      = "${ var.aws["key-name"] }"
+  timezone      = "${ var.timezone }"
+  vpc-id        = "${ var.vpc-id }"
 
   # modules
   ami-id                       = "${ module.ami.ami_id }"
@@ -78,7 +80,6 @@ module "bastion" {
   tls-ca-self-signed-cert-pem  = "${ module.tls.tls-self-signed-cert-pem }"
   security-group-id            = "${ module.security.bastion-id }"
   subnet-id                    = "${ element( split(",", var.subnet-ids-public), 0 ) }"
-  vpc-id                       = "${ var.vpc-id }"
 }
 
 module "master" {
@@ -100,6 +101,7 @@ module "master" {
   service-cluster-ip-range  = "${ var.cidr["service-cluster"] }"
   subnet-id-private         = "${ element( split(",", var.subnet-ids-private), 0 ) }"
   subnet-id-public          = "${ element( split(",", var.subnet-ids-public), 0 ) }"
+  timezone                  = "${ var.timezone }"
 
   # modules
   ami-id                         = "${ module.ami.ami_id }"
@@ -129,6 +131,7 @@ module "node" {
   subnet-ids     = "${ var.subnet-ids-private }"
   volume_size    = "${ var.volume-size }"
   vpc-id         = "${ var.vpc-id }"
+  timezone       = "${ var.timezone }"
 
   # modules
   ami-id                       = "${ module.ami.ami_id }"

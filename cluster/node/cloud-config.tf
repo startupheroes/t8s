@@ -13,6 +13,7 @@ data "template_file" "cloud-config" {
     region          = "${ var.aws["region"] }"
     node-key        = "${base64encode(tls_private_key.node.private_key_pem)}"
     node-pem        = "${base64encode(tls_locally_signed_cert.node.cert_pem)}"
+    timezone        = "${var.timezone}"
   }
 }
 

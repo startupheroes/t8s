@@ -15,6 +15,7 @@ variable "external-elb-security-group-id" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
 variable "enable-api-batch-v2alpha1" {}
+variable "timezone" {}
 
 variable "ip-k8s-service" {}
 

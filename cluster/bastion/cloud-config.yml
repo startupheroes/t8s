@@ -13,6 +13,17 @@ coreos:
     reboot-strategy: off
 
   units:
+    - name: settimezone.service
+      command: start
+      content: |
+        [Unit]
+        Description=Set the time zone
+
+        [Service]
+        ExecStart=/usr/bin/timedatectl set-timezone ${ timezone }
+        RemainAfterExit=yes
+        Type=oneshot
+
     - name: download-etcdctl3.service
       command: start
       content: |

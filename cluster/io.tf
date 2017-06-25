@@ -9,6 +9,9 @@ variable "cluster" {
 
 variable "depends-id" {}
 variable "root-internal-tld" {}
+variable "timezone" {
+  default = "Etc/GMT0"
+}
 
 variable "internal-zone-id" {
   default = ""

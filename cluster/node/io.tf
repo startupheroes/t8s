@@ -20,6 +20,7 @@ variable "dns-service-ip" {}
 variable "etcd-version" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
+variable "timezone" {}
 
 variable "k8s" {
   type = "map"

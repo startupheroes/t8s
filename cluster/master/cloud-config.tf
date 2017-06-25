@@ -27,6 +27,7 @@ data "template_file" "cloud-config" {
     apiserver-key             = "${base64encode(element(tls_private_key.apiserver.*.private_key_pem,count.index))}"
     apiserver-pem             = "${base64encode(element(tls_locally_signed_cert.apiserver.*.cert_pem,count.index))}"
     service-account-key       = "${base64encode(tls_private_key.service-account.private_key_pem)}"
+    timezone                  = "${ var.timezone }"
   }
 }
 
