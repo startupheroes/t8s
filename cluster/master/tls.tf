@@ -22,7 +22,7 @@ resource "tls_cert_request" "apiserver" {
     "kubernetes.default",
     "kubernetes.default.svc",
     "kubernetes.default.svc.cluster.local",
-    "master.${ var.cluster["internal-tld"] }",
+    "master.${ var.cluster["cluster-tld"] }",
     "${aws_elb.external.dns_name}",
   ]
 
@@ -78,8 +78,8 @@ resource "tls_cert_request" "etcd" {
     "kubernetes.default",
     "kubernetes.default.svc",
     "kubernetes.default.svc.cluster.local",
-    "etcd.${ var.cluster["internal-tld"] }",
-    "etcd${ count.index + 1 }.${ var.cluster["internal-tld"] }",
+    "etcd.${ var.cluster["cluster-tld"] }",
+    "etcd${ count.index + 1 }.${ var.cluster["cluster-tld"] }",
   ]
 
   ip_addresses = [

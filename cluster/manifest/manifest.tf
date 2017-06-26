@@ -5,7 +5,7 @@ resource "template_dir" "manifest" {
   vars {
     cluster-domain              = "${var.cluster-domain}"
     dns-service-ip              = "${var.dns-service-ip}"
-    internal-tld                = "${var.cluster["internal-tld"]}"
+    cluster-tld                 = "${var.cluster["cluster-tld"]}"
     region                      = "${var.aws["region"]}"
     node-autoscaling-group-name = "${var.node-autoscaling-group-name}"
   }

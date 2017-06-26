@@ -3,10 +3,6 @@ variable "master-count" {}
 variable "master-ips" {}
 variable "vpc-id" {}
 
-variable "internal-zone-id" {
-  default = ""
-}
-
 variable "cluster" {
   type = "map"
 
@@ -14,8 +10,8 @@ variable "cluster" {
     name              = ""
     version           = ""
     cluster-id        = ""
-    internal-tld      = ""
-    root-internal-tld = ""
+    cluster-tld      = ""
+    cluster-root-tld = ""
   }
 }
 
@@ -28,5 +24,5 @@ output "internal-name-servers" {
 }
 
 output "cluster-internal-zone-id" {
-  value = "${ null_resource.interpolated_id.triggers.zone-id }"
+  value = "${ aws_route53_zone.internal.zone_id }"
 }

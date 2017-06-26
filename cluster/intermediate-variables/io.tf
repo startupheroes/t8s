@@ -1,7 +1,7 @@
 variable "master-cidr-offset" {}
 variable "master-count" {}
 variable "subnet-ids-private" {}
-variable "root-internal-tld" {}
+variable "cluster-root-tld" {}
 
 variable "cluster" {
   type = "map"
@@ -17,8 +17,8 @@ output "extended-cluster" {
               "name", var.cluster["name"],
               "version", var.cluster["version"],
               "cluster-id", format("%s-v%s", var.cluster["name"], replace( var.cluster["version"],  "/[[:^alnum:]]/", "")),
-              "internal-tld", format("%sv%s.%s", var.cluster["name"], replace( var.cluster["version"],  "/[[:^alnum:]]/", ""), var.root-internal-tld),
-              "root-internal-tld", var.root-internal-tld
+              "cluster-tld", format("%sv%s.%s", var.cluster["name"], replace( var.cluster["version"],  "/[[:^alnum:]]/", ""), var.cluster-root-tld),
+              "cluster-root-tld", var.cluster-root-tld
            )}"
 }
 

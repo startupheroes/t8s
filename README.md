@@ -50,7 +50,7 @@ module "cluster-v2" {
   capacity                  = "${var.capacity}"
   cluster                   = "${var.cluster}"
   instance-type             = "${var.instance-type}"
-  root-internal-tld         = "${var.tld["internal-tld"]}"
+  root-cluster-tld         = "${var.tld["cluster-tld"]}"
 
   # modules
   depends-id         = "${module.platform.depends-id}"
@@ -123,7 +123,7 @@ variable "tld" {
 
   default = {
     external-tld = "cemokoc.com"
-    internal-tld = "internal.cemokoc.com"
+    cluster-tld = "internal.cemokoc.com"
   }
 }
 

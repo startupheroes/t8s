@@ -8,13 +8,12 @@ variable "cluster" {
 }
 
 variable "depends-id" {}
-variable "root-internal-tld" {}
+
+variable "cluster-root-tld" {
+  default = "internal.t8s"
+}
 variable "timezone" {
   default = "Etc/GMT0"
-}
-
-variable "internal-zone-id" {
-  default = ""
 }
 
 variable "cluster-domain" {
@@ -147,7 +146,7 @@ output "external-elb" {
 }
 
 output "cluster-internal-tld" {
-  value = "${ module.iv.extended-cluster["internal-tld"] }"
+  value = "${ module.iv.extended-cluster["cluster-tld"] }"
 }
 
 output "node-autoscaling-group-name" {
@@ -162,7 +161,7 @@ output "cluster" {
   value = "${
     map(
       "cluster-domain", "${ var.cluster-domain }",
-      "internal-tld", "${ module.iv.extended-cluster["internal-tld"] }",
+      "cluster-tld", "${ module.iv.extended-cluster["cluster-tld"] }",
       "node-autoscaling-group-name", "${ module.node.autoscaling-group-name }",
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",

@@ -4,7 +4,7 @@
 coreos:
 
   locksmith:
-    endpoint: https://etcd.${ internal-tld }:2379
+    endpoint: https://etcd.${ cluster-tld }:2379
     etcd_cafile: /etc/kubernetes/ssl/ca.pem
     etcd_certfile: /etc/kubernetes/ssl/k8s-bastion.pem
     etcd_keyfile: /etc/kubernetes/ssl/k8s-bastion-key.pem
@@ -59,7 +59,7 @@ write-files:
     content: |
       ETCDCTL_CA_FILE=/etc/kubernetes/ssl/ca.pem
       ETCDCTL_CERT_FILE=/etc/kubernetes/ssl/k8s-bastion.pem
-      ETCDCTL_ENDPOINTS=https://etcd.${ internal-tld }:2379
+      ETCDCTL_ENDPOINTS=https://etcd.${ cluster-tld }:2379
       ETCDCTL_KEY_FILE=/etc/kubernetes/ssl/k8s-bastion-key.pem
 
   - path: /opt/bin/download-etcdctl-v3

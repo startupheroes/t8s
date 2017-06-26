@@ -5,6 +5,7 @@ variable "aws" {
 }
 
 variable "cluster-domain" {}
+variable "depends-id" {}
 variable "dns-service-ip" {}
 variable "etcd-version" {}
 variable "etcd-storage-backend" {}
@@ -30,8 +31,8 @@ variable "cluster" {
     name              = ""
     version           = ""
     cluster-id        = ""
-    internal-tld      = ""
-    root-internal-tld = ""
+    cluster-tld      = ""
+    cluster-root-tld = ""
   }
 }
 

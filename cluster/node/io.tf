@@ -33,8 +33,8 @@ variable "cluster" {
     name              = ""
     version           = ""
     cluster-id        = ""
-    internal-tld      = ""
-    root-internal-tld = ""
+    cluster-tld      = ""
+    cluster-root-tld = ""
   }
 }
 

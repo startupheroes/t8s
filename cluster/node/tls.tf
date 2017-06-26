@@ -20,7 +20,7 @@ resource "tls_cert_request" "node" {
     "kubernetes.default",
     "kubernetes.default.svc",
     "kubernetes.default.svc.cluster.local",
-    "master.${ var.cluster["internal-tld"] }",
+    "master.${ var.cluster["cluster-tld"] }",
     "*.*.compute.internal",
     "*.ec2.internal",
   ]

@@ -14,7 +14,7 @@ module "iv" {
   master-cidr-offset = "${ var.master-cidr-offset }"
   master-count       = "${ var.master-count }"
   subnet-ids-private = "${ var.subnet-ids-private }"
-  root-internal-tld  = "${ var.root-internal-tld }"
+  cluster-root-tld   = "${ var.cluster-root-tld }"
 }
 
 module "s3" {
@@ -30,7 +30,6 @@ module "route53" {
 
   # variables
   depends-id       = "${var.depends-id}"
-  internal-zone-id = "${var.internal-zone-id}"
   master-count     = "${var.master-count}"
   vpc-id           = "${var.vpc-id}"
 
@@ -90,6 +89,7 @@ module "master" {
   aws                       = "${ var.aws }"
   cluster-domain            = "${ var.cluster-domain }"
   dns-service-ip            = "${ var.dns-service-ip }"
+  depends-id                = "${ var.vpc-id }"
   enable-api-batch-v2alpha1 = "${ var.enable-api-batch-v2alpha1 }"
   etcd-version              = "${ var.version["etcd"] }"
   etcd-storage-backend      = "${ var.etcd-storage-backend }"

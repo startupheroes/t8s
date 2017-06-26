@@ -6,7 +6,7 @@ coreos:
   flannel:
     etcd_cafile: /etc/kubernetes/ssl/ca.pem
     etcd_certfile: /etc/kubernetes/ssl/k8s-node.pem
-    etcd_endpoints: https://etcd.${ internal-tld }:2379
+    etcd_endpoints: https://etcd.${ cluster-tld }:2379
     etcd_keyfile: /etc/kubernetes/ssl/k8s-node-key.pem
 
   units:
@@ -44,7 +44,7 @@ coreos:
             Environment="ETCD_SSL_DIR=/etc/kubernetes/ssl"
             Environment="ETCD_CERT_FILE=/etc/ssl/certs/k8s-node.pem"
             Environment="ETCD_CLIENT_CERT_AUTH=TRUE"
-            Environment="ETCD_DISCOVERY_SRV=${ internal-tld }"
+            Environment="ETCD_DISCOVERY_SRV=${ cluster-tld }"
             Environment="ETCD_KEY_FILE=/etc/ssl/certs/k8s-node-key.pem"
             Environment="ETCD_PEER_CERT_FILE=/etc/ssl/certs/k8s-node.pem"
             Environment="ETCD_PEER_CLIENT_AUTH=true"
@@ -161,7 +161,7 @@ coreos:
         ExecStartPre=/opt/bin/wait-for-apiserver
         ExecStart=/usr/lib/coreos/kubelet-wrapper \
           --allow-privileged=true \
-          --api-servers=https://master.${ internal-tld } \
+          --api-servers=https://master.${ cluster-tld } \
           --cert-dir=/etc/kubernetes/ssl \
           --cloud-provider=aws \
           --cluster-dns=${ dns-service-ip } \
@@ -230,7 +230,7 @@ write-files:
         - name: local
           cluster:
             certificate-authority: /etc/kubernetes/ssl/ca.pem
-            server: https://master.${ internal-tld }
+            server: https://master.${ cluster-tld }
       users:
         - name: kubelet
           user:
@@ -259,7 +259,7 @@ write-files:
           - /hyperkube
           - proxy
           - --kubeconfig=/etc/kubernetes/kubeconfig.yml
-          - --master=https://master.${ internal-tld }
+          - --master=https://master.${ cluster-tld }
           securityContext:
             privileged: true
           volumeMounts:
@@ -323,7 +323,7 @@ write-files:
     owner: root:root
     content: |
       #!/bin/bash -e
-      until curl --insecure https://master.${ internal-tld }/ &>/dev/null
+      until curl --insecure https://master.${ cluster-tld }/ &>/dev/null
       do
         echo "waiting for apiserver..."
         sleep 5.2
