@@ -29,9 +29,9 @@ module "route53" {
   source = "route53"
 
   # variables
-  depends-id       = "${var.depends-id}"
-  master-count     = "${var.master-count}"
-  vpc-id           = "${var.vpc-id}"
+  depends-id   = "${var.depends-id}"
+  master-count = "${var.master-count}"
+  vpc-id       = "${var.vpc-id}"
 
   # modules
   cluster    = "${module.iv.extended-cluster}"
@@ -120,18 +120,20 @@ module "node" {
   source = "node"
 
   # variables
-  aws            = "${ var.aws }"
-  capacity       = "${ var.capacity }"
-  cluster-domain = "${ var.cluster-domain }"
-  dns-service-ip = "${ var.dns-service-ip }"
-  etcd-version   = "${ var.version["etcd"] }"
-  instance-type  = "${ var.instance-type["node"] }"
-  k8s            = "${ var.k8s }"
-  node-name      = "general"
-  subnet-ids     = "${ var.subnet-ids-private }"
-  volume_size    = "${ var.volume-size }"
-  vpc-id         = "${ var.vpc-id }"
-  timezone       = "${ var.timezone }"
+  aws               = "${ var.aws }"
+  capacity          = "${ var.capacity }"
+  cluster-domain    = "${ var.cluster-domain }"
+  dns-service-ip    = "${ var.dns-service-ip }"
+  etcd-version      = "${ var.version["etcd"] }"
+  instance-type     = "${ var.instance-type["node"] }"
+  load-balancers    = "${ var.load-balancers }"
+  k8s               = "${ var.k8s }"
+  node-name         = "general"
+  subnet-ids        = "${ var.subnet-ids-private }"
+  volume_size       = "${ var.volume-size }"
+  vpc-id            = "${ var.vpc-id }"
+  target-group-arns = "${ var.target-group-arns }"
+  timezone          = "${ var.timezone }"
 
   # modules
   ami-id                       = "${ module.ami.ami_id }"

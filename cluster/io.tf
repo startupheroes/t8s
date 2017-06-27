@@ -12,6 +12,7 @@ variable "depends-id" {}
 variable "cluster-root-tld" {
   default = "internal.t8s"
 }
+
 variable "timezone" {
   default = "Etc/GMT0"
 }
@@ -47,6 +48,14 @@ variable "additional-cidr-blocks-node" {
 variable "vpc-id" {}
 variable "subnet-ids-public" {}
 variable "subnet-ids-private" {}
+
+variable "target-group-arns" {
+  default = ""
+}
+
+variable "load-balancers" {
+  default = ""
+}
 
 variable "k8s" {
   type = "map"

@@ -8,7 +8,7 @@ data "template_file" "cloud-config" {
     etcd-version    = "${ var.etcd-version }"
     hyperkube-image = "${ var.k8s["hyperkube-image"] }"
     hyperkube-tag   = "${ var.k8s["hyperkube-tag"] }"
-    cluster-tld    = "${ var.cluster["cluster-tld"] }"
+    cluster-tld     = "${ var.cluster["cluster-tld"] }"
     s3-bucket       = "${ var.s3-bucket }"
     region          = "${ var.aws["region"] }"
     node-key        = "${base64encode(tls_private_key.node.private_key_pem)}"

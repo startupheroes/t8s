@@ -1,5 +1,4 @@
 resource "aws_route53_zone" "internal" {
-
   comment = "Kubernetes [t8s] cluster DNS (internal)"
   name    = "${var.cluster["cluster-tld"]}"
 

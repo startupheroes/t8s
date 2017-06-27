@@ -21,6 +21,8 @@ variable "etcd-version" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
 variable "timezone" {}
+variable "target-group-arns" {}
+variable "load-balancers" {}
 
 variable "k8s" {
   type = "map"
@@ -30,9 +32,9 @@ variable "cluster" {
   type = "map"
 
   default = {
-    name              = ""
-    version           = ""
-    cluster-id        = ""
+    name             = ""
+    version          = ""
+    cluster-id       = ""
     cluster-tld      = ""
     cluster-root-tld = ""
   }

@@ -39,6 +39,9 @@ resource "aws_autoscaling_group" "node" {
   min_size                  = "${ var.capacity["min"] }"
   vpc_zone_identifier       = ["${ split(",", var.subnet-ids) }"]
 
+  target_group_arns = ["${compact(split(",", var.target-group-arns))}"]
+  load_balancers    = ["${compact(split(",", var.load-balancers))}"]
+
   tag {
     key                 = "builtWith"
     value               = "terraform"

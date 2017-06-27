@@ -28,9 +28,9 @@ variable "cluster" {
   type = "map"
 
   default = {
-    name              = ""
-    version           = ""
-    cluster-id        = ""
+    name             = ""
+    version          = ""
+    cluster-id       = ""
     cluster-tld      = ""
     cluster-root-tld = ""
   }
