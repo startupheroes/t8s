@@ -14,26 +14,6 @@ resource "aws_route53_zone" "internal" {
   vpc_id = "${ var.vpc-id }"
 }
 
-
-
-//
-//resource "null_resource" "id_rsa_file" {
-//
-//  triggers {
-//    test = "test"
-//  }
-//
-//  provisioner "local-exec" {
-//    command = <<EOT
-//
-//    echo "cemoooooooooooooooooooo: ${var.cluster["cluster-tld"]}"
-//EOT
-//  }
-//
-//}
-
-
-
 resource "aws_route53_record" "A-etcd" {
   name    = "etcd"
   records = ["${ split(",", var.master-ips) }"]
@@ -58,7 +38,7 @@ resource "aws_route53_record" "A-etcds" {
 
 resource "aws_route53_record" "CNAME-master" {
   name    = "master"
-  records = ["etcd"]
+  records = ["etcd.${ var.cluster["cluster-tld"] }"]
   ttl     = "300"
   type    = "CNAME"
   zone_id = "${ aws_route53_zone.internal.zone_id }"

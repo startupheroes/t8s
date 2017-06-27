@@ -67,6 +67,10 @@ output "autoscaling-group-name" {
   value = "${ aws_autoscaling_group.node.name }"
 }
 
+output "autoscaling-group-id" {
+  value = "${ aws_autoscaling_group.node.id }"
+}
+
 output "depends-id" {
   value = "${ null_resource.dummy_dependency.id }"
 }

@@ -153,6 +153,10 @@ output "node-autoscaling-group-name" {
   value = "${ module.node.autoscaling-group-name }"
 }
 
+output "node-autoscaling-group-id" {
+  value = "${ module.node.autoscaling-group-id }"
+}
+
 output "route-53-zone-id" {
   value = "${ module.route53.cluster-internal-zone-id }"
 }
@@ -163,6 +167,7 @@ output "cluster" {
       "cluster-domain", "${ var.cluster-domain }",
       "cluster-tld", "${ module.iv.extended-cluster["cluster-tld"] }",
       "node-autoscaling-group-name", "${ module.node.autoscaling-group-name }",
+      "node-autoscaling-group-id", "${ module.node.autoscaling-group-id }",
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",
       "master1-ip", "${ module.iv.master-ips }",
