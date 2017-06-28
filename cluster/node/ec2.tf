@@ -39,8 +39,7 @@ resource "aws_autoscaling_group" "node" {
   min_size                  = "${ var.capacity["min"] }"
   vpc_zone_identifier       = ["${ split(",", var.subnet-ids) }"]
 
-  target_group_arns = ["${compact(split(",", var.target-group-arns))}"]
-  load_balancers    = ["${compact(split(",", var.load-balancers))}"]
+  load_balancers = ["${compact(split(",", var.load-balancers))}"]
 
   tag {
     key                 = "builtWith"
@@ -90,6 +89,13 @@ resource "aws_autoscaling_group" "node" {
     value               = "private"
     propagate_at_launch = true
   }
+}
+
+resource "aws_autoscaling_attachment" "asg-attachment-target-group" {
+  count = "${length(compact(split(",", var.target-group-arns)))}"
+
+  autoscaling_group_name = "${aws_autoscaling_group.node.id}"
+  alb_target_group_arn   = "${element(compact(split(",", var.target-group-arns)), count.index)}"
 }
 
 resource "null_resource" "dummy_dependency" {
