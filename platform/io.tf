@@ -70,7 +70,8 @@ output "platform" {
       "subnet-ids-public", "${ module.vpc.subnet-ids-public }",
       "subnet-ids-private-cidr", "${ module.vpc.subnet-ids-private-cidr }",
       "subnet-ids-public-cidr", "${ module.vpc.subnet-ids-public-cidr }",
-      "vpc-id", "${module.vpc.id}"
+      "vpc-id", "${module.vpc.id}",
+      "nat-gateway-ip", "${module.vpc.nat-gateway-ip}"
     )
   }"
 }

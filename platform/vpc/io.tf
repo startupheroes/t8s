@@ -39,3 +39,7 @@ output "subnet-ids-private-cidr" {
 output "subnet-ids-public-cidr" {
   value = "${ join(",", aws_subnet.public.*.cidr_block) }"
 }
+
+output "nat-gateway-ip" {
+  value = "${ aws_nat_gateway.nat.public_ip }"
+}
