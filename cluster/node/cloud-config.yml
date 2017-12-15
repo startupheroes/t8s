@@ -161,7 +161,6 @@ coreos:
         ExecStartPre=/opt/bin/wait-for-apiserver
         ExecStart=/usr/lib/coreos/kubelet-wrapper \
           --allow-privileged=true \
-          --api-servers=https://master.${ cluster-tld } \
           --cert-dir=/etc/kubernetes/ssl \
           --cloud-provider=aws \
           --cluster-dns=${ dns-service-ip } \

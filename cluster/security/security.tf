@@ -87,7 +87,7 @@ resource "aws_security_group" "external-elb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  name = "t8s-master-external-elb-${ var.cluster["name"] }"
+  name = "t8s-master-external-elb-${ var.cluster["cluster-id"] }"
 
   tags {
     builtWith         = "terraform"

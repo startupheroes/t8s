@@ -62,7 +62,7 @@ variable "k8s" {
 
   default = {
     hyperkube-image = "quay.io/coreos/hyperkube"
-    hyperkube-tag   = "v1.6.6_coreos.1"
+    hyperkube-tag   = "v1.8.5_coreos.0"
   }
 }
 
