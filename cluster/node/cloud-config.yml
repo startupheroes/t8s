@@ -101,6 +101,10 @@ coreos:
             [Service]
             Restart=always
             RestartSec=10
+        - name: 50-environment.conf
+          content: |
+            [Service]
+            Environment="DOCKER_OPTS=--log-opt max-size=100m"
 
     - name: prefetch-rkt-hyperkube.service
       command: start
