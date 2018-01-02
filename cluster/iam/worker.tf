@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role" "node" {
   name = "t8s-node-${ var.cluster["cluster-id"] }"
 
