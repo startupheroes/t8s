@@ -180,7 +180,9 @@ output "cluster" {
       "bastion", "${ module.bastion.ip }",
       "dns-service", "${ var.dns-service-ip }",
       "master1-ip", "${ module.iv.master-ips }",
-      "zone-id", "${ module.route53.cluster-internal-zone-id }"
+      "zone-id", "${ module.route53.cluster-internal-zone-id }",
+      "node-iam-id", "${ module.iam.aws-iam-role-node-id }",
+      "master-iam-id", "${ module.iam.aws-iam-role-etcd-id }"
     )
   }"
 }

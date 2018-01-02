@@ -9,6 +9,13 @@ resource "aws_iam_role" "master" {
       "Effect": "Allow",
       "Principal": { "Service": "ec2.amazonaws.com" },
       "Action": "sts:AssumeRole"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${ data.aws_caller_identity.current.account_id }:role/t8s-master-${ var.cluster["cluster-id"] }"
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }

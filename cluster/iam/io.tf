@@ -12,6 +12,8 @@ variable "cluster" {
 
 variable "s3-bucket-arn" {}
 
+data "aws_caller_identity" "current" {}
+
 output "depends-id" {
   value = "${ null_resource.dummy_dependency.id }"
 }

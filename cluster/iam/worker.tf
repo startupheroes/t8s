@@ -11,6 +11,13 @@ resource "aws_iam_role" "node" {
         "Service": "ec2.amazonaws.com"
       },
       "Action": "sts:AssumeRole"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${ data.aws_caller_identity.current.account_id }:role/t8s-node-${ var.cluster["cluster-id"] }"
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }
