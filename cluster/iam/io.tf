@@ -12,18 +12,16 @@ variable "cluster" {
 
 variable "s3-bucket-arn" {}
 
-data "aws_caller_identity" "current" {}
-
 output "depends-id" {
   value = "${ null_resource.dummy_dependency.id }"
 }
 
 output "aws-iam-role-etcd-id" {
-  value = "${ aws_iam_role.master.id }"
+  value = "${ aws_iam_role.master-instance-role.id }"
 }
 
 output "aws-iam-role-node-id" {
-  value = "${ aws_iam_role.node.id }"
+  value = "${ aws_iam_role.node-instance-role.id }"
 }
 
 output "instance-profile-name-master" {
