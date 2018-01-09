@@ -1,4 +1,4 @@
-resource "aws_iam_role" "master-instance-role" {
+resource "aws_iam_role" "master" {
   name = "t8s-master-${ var.cluster["cluster-id"] }"
 
   assume_role_policy = <<EOS
@@ -15,34 +15,14 @@ resource "aws_iam_role" "master-instance-role" {
 EOS
 }
 
-resource "aws_iam_role" "master-assuming" {
-  name = "t8s-master-assuming-${ var.cluster["cluster-id"] }"
-
-  assume_role_policy = <<EOS
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "${aws_iam_role.master-instance-role.arn}"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOS
-}
-
 resource "aws_iam_instance_profile" "master" {
   name = "t8s-master-${ var.cluster["cluster-id"] }"
 
-  role = "${ aws_iam_role.master-instance-role.name }"
+  role = "${ aws_iam_role.master.name }"
 }
 
 resource "aws_iam_role_policy" "master" {
   name = "t8s-master-${ var.cluster["cluster-id"] }"
-  role = "${ aws_iam_role.master-instance-role.id }"
 
   policy = <<EOS
 {
@@ -113,4 +93,5 @@ resource "aws_iam_role_policy" "master" {
 }
 EOS
 
+  role = "${ aws_iam_role.master.id }"
 }
