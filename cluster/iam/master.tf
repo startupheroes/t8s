@@ -1,4 +1,4 @@
-resource "aws_iam_role" "master" {
+resource "aws_iam_role" "master-instance-role" {
   name = "t8s-master-${ var.cluster["cluster-id"] }"
 
   assume_role_policy = <<EOS
@@ -9,11 +9,23 @@ resource "aws_iam_role" "master" {
       "Effect": "Allow",
       "Principal": { "Service": "ec2.amazonaws.com" },
       "Action": "sts:AssumeRole"
-    },
+    }
+  ]
+}
+EOS
+}
+
+resource "aws_iam_role" "master-assuming" {
+  name = "t8s-master-assuming-${ var.cluster["cluster-id"] }"
+
+  assume_role_policy = <<EOS
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::${ data.aws_caller_identity.current.account_id }:role/t8s-master-${ var.cluster["cluster-id"] }"
+        "AWS": "${aws_iam_role.master-instance-role.arn}"
       },
       "Action": "sts:AssumeRole"
     }
@@ -25,11 +37,12 @@ EOS
 resource "aws_iam_instance_profile" "master" {
   name = "t8s-master-${ var.cluster["cluster-id"] }"
 
-  role = "${ aws_iam_role.master.name }"
+  role = "${ aws_iam_role.master-instance-role.name }"
 }
 
 resource "aws_iam_role_policy" "master" {
   name = "t8s-master-${ var.cluster["cluster-id"] }"
+  role = "${ aws_iam_role.master-instance-role.id }"
 
   policy = <<EOS
 {
@@ -95,22 +108,9 @@ resource "aws_iam_role_policy" "master" {
       ],
       "Effect": "Allow",
       "Resource": "*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "logs:CreateLogStream",
-            "logs:PutLogEvents",
-            "logs:DescribeLogStreams"
-        ],
-        "Resource": [
-            "arn:aws:logs:*:*:log-group:*",
-            "arn:aws:logs:*:*:log-group:*:log-stream:*"
-        ]
     }
   ]
 }
 EOS
 
-  role = "${ aws_iam_role.master.id }"
 }
