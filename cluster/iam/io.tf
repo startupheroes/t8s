@@ -17,11 +17,11 @@ output "depends-id" {
 }
 
 output "aws-iam-role-etcd-id" {
-  value = "${ aws_iam_role.master-instance-role.id }"
+  value = "${ aws_iam_role.master.id }"
 }
 
 output "aws-iam-role-node-id" {
-  value = "${ aws_iam_role.node-instance-role.id }"
+  value = "${ aws_iam_role.node.id }"
 }
 
 output "instance-profile-name-master" {
