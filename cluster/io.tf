@@ -49,10 +49,6 @@ variable "vpc-id" {}
 variable "subnet-ids-public" {}
 variable "subnet-ids-private" {}
 
-variable "load-balancers" {
-  default = ""
-}
-
 variable "k8s" {
   type = "map"
 

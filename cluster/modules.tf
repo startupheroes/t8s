@@ -126,7 +126,6 @@ module "node" {
   dns-service-ip    = "${ var.dns-service-ip }"
   etcd-version      = "${ var.version["etcd"] }"
   instance-type     = "${ var.instance-type["node"] }"
-  load-balancers    = "${ var.load-balancers }"
   k8s               = "${ var.k8s }"
   node-name         = "general"
   subnet-ids        = "${ var.subnet-ids-private }"
