@@ -132,7 +132,6 @@ module "node" {
   subnet-ids        = "${ var.subnet-ids-private }"
   volume_size       = "${ var.volume-size }"
   vpc-id            = "${ var.vpc-id }"
-  target-group-arns = "${ var.target-group-arns }"
   timezone          = "${ var.timezone }"
 
   # modules

@@ -91,13 +91,6 @@ resource "aws_autoscaling_group" "node" {
   }
 }
 
-resource "aws_autoscaling_attachment" "asg-attachment-target-group" {
-  count = "${length(compact(split(",", var.target-group-arns)))}"
-
-  autoscaling_group_name = "${aws_autoscaling_group.node.id}"
-  alb_target_group_arn   = "${element(compact(split(",", var.target-group-arns)), count.index)}"
-}
-
 resource "null_resource" "dummy_dependency" {
   depends_on = [
     "aws_autoscaling_group.node",

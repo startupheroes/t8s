@@ -21,7 +21,6 @@ variable "etcd-version" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
 variable "timezone" {}
-variable "target-group-arns" {}
 variable "load-balancers" {}
 
 variable "k8s" {

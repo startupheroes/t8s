@@ -49,10 +49,6 @@ variable "vpc-id" {}
 variable "subnet-ids-public" {}
 variable "subnet-ids-private" {}
 
-variable "target-group-arns" {
-  default = ""
-}
-
 variable "load-balancers" {
   default = ""
 }
