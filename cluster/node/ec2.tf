@@ -3,6 +3,7 @@ resource "aws_launch_configuration" "node" {
     device_name = "/dev/xvdf"
     volume_size = "${ var.volume_size["ebs"] }"
     volume_type = "gp2"
+    encrypted = false
   }
 
   iam_instance_profile = "${ var.instance-profile-name }"
@@ -38,6 +39,7 @@ resource "aws_autoscaling_group" "node" {
   max_size                  = "${ var.capacity["max"] }"
   min_size                  = "${ var.capacity["min"] }"
   vpc_zone_identifier       = ["${ split(",", var.subnet-ids) }"]
+
 
   tag {
     key                 = "builtWith"
