@@ -116,8 +116,7 @@ coreos:
         [Service]
         Type=oneshot
         RemainAfterExit=yes
-        ExecStartPre=/usr/bin/rkt trust --trust-keys-from-https --prefix=quay.io/coreos/hyperkube
-        ExecStart=/usr/bin/rkt fetch ${ hyperkube-image }:${ hyperkube-tag }
+        ExecStart=/usr/bin/rkt --insecure-options=image fetch docker://${ hyperkube-image }:${ hyperkube-tag }
 
     - name: prefetch-docker-hyperkube.service
       command: start
@@ -144,9 +143,10 @@ coreos:
         Requires=flanneld.service
         [Service]
         EnvironmentFile=/etc/environment
-        Environment="KUBELET_ACI=${ hyperkube-image }"
-        Environment="KUBELET_VERSION=${ hyperkube-tag }"
-        Environment="RKT_OPTS=\
+        Environment="RKT_GLOBAL_ARGS=--insecure-options=image"
+        Environment="KUBELET_IMAGE_URL=docker://${ hyperkube-image }"
+        Environment="KUBELET_IMAGE_TAG=${ hyperkube-tag }"
+        Environment="RKT_RUN_ARGS=\
           --volume dns,kind=host,source=/etc/resolv.conf \
           --mount volume=dns,target=/etc/resolv.conf \
           --volume rkt,kind=host,source=/opt/bin/host-rkt \
@@ -261,6 +261,8 @@ write-files:
           command:
           - /hyperkube
           - proxy
+          - --proxy-mode=ipvs
+          - --ipvs-scheduler=rr
           - --kubeconfig=/etc/kubernetes/kubeconfig.yml
           - --master=https://master.${ cluster-tld }
           securityContext:
@@ -277,6 +279,9 @@ write-files:
             - mountPath: /var/run/dbus
               name: dbus
               readOnly: false
+            - mountPath: /lib/modules
+              name: lib-modules
+              readOnly: true
         volumes:
           - name: "ssl-certs"
             hostPath:
@@ -290,7 +295,9 @@ write-files:
           - name: dbus
             hostPath:
               path: "/var/run/dbus"
-
+          - name: lib-modules
+            hostPath:
+              path: /lib/modules
 
   - path: /etc/logrotate.d/docker-containers
     content: |

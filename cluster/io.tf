@@ -53,8 +53,8 @@ variable "k8s" {
   type = "map"
 
   default = {
-    hyperkube-image = "quay.io/coreos/hyperkube"
-    hyperkube-tag   = "v1.10.4_coreos.0"
+    hyperkube-image = "gcr.io/google_containers/hyperkube"
+    hyperkube-tag   = "v1.11.1"
   }
 }
 
