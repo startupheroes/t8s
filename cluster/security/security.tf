@@ -12,7 +12,7 @@ resource "aws_security_group" "bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${ var.cidr-allow-ssh }"]
+    cidr_blocks = ["${ compact(split(",", var.cidr-allow-ssh)) }"]
   }
 
   name = "t8s-bastion-${ var.cluster["cluster-id"] }"
