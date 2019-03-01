@@ -10,7 +10,9 @@ resource "aws_route53_zone" "internal" {
     Version           = "${ var.cluster["version"] }"
   }
 
-  vpc_id = "${ var.vpc-id }"
+  vpc {
+    vpc_id = "${ var.vpc-id }"
+  }
 }
 
 resource "aws_route53_record" "A-etcd" {
