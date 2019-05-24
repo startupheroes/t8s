@@ -2,7 +2,7 @@ data "template_file" "cloud-config" {
   count    = "${ var.master-count }"
   template = "${ file( "${ path.module }/cloud-config.yml" )}"
 
-  vars {
+  vars =  {
     enable-api-batch-v2alpha1 = "${var.enable-api-batch-v2alpha1}"
     apiserver-count           = "${ length( split(",", var.master-ips) ) }"
     cluster-domain            = "${ var.cluster-domain }"
@@ -35,7 +35,7 @@ data "template_file" "cloud-config-fetcher" {
   count    = "${ var.master-count }"
   template = "${ file( "${ path.module }/cloud-config-fetcher.yml" )}"
 
-  vars {
+  vars = {
     region             = "${ var.aws["region"] }"
     s3-bucket          = "${ var.s3-bucket }"
     s3-cloud-init-file = "${ format("%s-%d-cloud-config.yml", var.s3-bucket-master-prefix, count.index) }"

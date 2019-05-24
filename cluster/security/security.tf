@@ -1,23 +1,23 @@
 resource "aws_security_group" "bastion" {
   description = "t8s bastion security group"
 
-  egress = {
+  egress  {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress = {
+  ingress  {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${ compact(split(",", var.cidr-allow-ssh)) }"]
+    cidr_blocks = "${ compact(split(",", var.cidr-allow-ssh)) }"
   }
 
   name = "t8s-bastion-${ var.cluster["cluster-id"] }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"
@@ -31,7 +31,7 @@ resource "aws_security_group" "bastion" {
 resource "aws_security_group" "master" {
   description = "t8s master security group"
 
-  egress = {
+  egress  {
     from_port = 0
     to_port   = 0
     protocol  = "-1"
@@ -40,7 +40,7 @@ resource "aws_security_group" "master" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress = {
+  ingress  {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -50,7 +50,7 @@ resource "aws_security_group" "master" {
 
   name = "t8s-master-${ var.cluster["cluster-id"] }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"
@@ -89,7 +89,7 @@ resource "aws_security_group" "external-elb" {
 
   name = "t8s-master-external-elb-${ var.cluster["cluster-id"] }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"
@@ -103,7 +103,7 @@ resource "aws_security_group" "external-elb" {
 resource "aws_security_group" "node" {
   description = "t8s node security group"
 
-  egress = {
+  egress  {
     from_port = 0
     to_port   = 0
     protocol  = "-1"
@@ -112,17 +112,17 @@ resource "aws_security_group" "node" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress = {
+  ingress  {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     self        = true
-    cidr_blocks = ["${concat(list(var.cidr-vpc), compact(split(",", var.additional-cidr-blocks-node)))}"]
+    cidr_blocks = "${concat(list(var.cidr-vpc), compact(split(",", var.additional-cidr-blocks-node)))}"
   }
 
   name = "t8s-node-${ var.cluster["cluster-id"] }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"

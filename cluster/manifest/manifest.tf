@@ -2,7 +2,7 @@ resource "template_dir" "manifest" {
   source_dir      = "${path.module}/templates"
   destination_dir = "${format("%s/.cluster/%s/%s/manifests", path.root, var.cluster["name"], var.cluster["version"])}"
 
-  vars {
+  vars =  {
     cluster-domain              = "${var.cluster-domain}"
     dns-service-ip              = "${var.dns-service-ip}"
     cluster-tld                 = "${var.cluster["cluster-tld"]}"

@@ -23,7 +23,7 @@ resource "aws_elb" "external" {
   security_groups = ["${ var.external-elb-security-group-id }"]
   subnets         = ["${ var.subnet-id-public }"]
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"

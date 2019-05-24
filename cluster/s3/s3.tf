@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "tls" {
 
   region = "${ var.aws["region"] }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"

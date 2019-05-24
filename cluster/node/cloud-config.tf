@@ -1,7 +1,7 @@
 data "template_file" "cloud-config" {
   template = "${ file( "${ path.module }/cloud-config.yml" )}"
 
-  vars {
+  vars = {
     ca-pem          = "${base64encode(var.tls-ca-self-signed-cert-pem)}"
     cluster-domain  = "${ var.cluster-domain }"
     dns-service-ip  = "${ var.dns-service-ip }"
@@ -20,7 +20,7 @@ data "template_file" "cloud-config" {
 data "template_file" "cloud-config-fetcher" {
   template = "${ file( "${ path.module }/cloud-config-fetcher.yml" )}"
 
-  vars {
+  vars = {
     region             = "${ var.aws["region"] }"
     s3-bucket          = "${ var.s3-bucket }"
     s3-cloud-init-file = "${ format("%s-cloud-config.yml", var.s3-bucket-node-prefix) }"

@@ -16,7 +16,7 @@ resource "aws_instance" "master" {
   source_dest_check = true
   subnet_id         = "${ var.subnet-id-private }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"

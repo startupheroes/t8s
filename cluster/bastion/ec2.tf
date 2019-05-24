@@ -7,7 +7,7 @@ resource "aws_instance" "bastion" {
   source_dest_check = true
   subnet_id         = "${ var.subnet-id }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"

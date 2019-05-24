@@ -1,2 +1,6 @@
-variable "output-private-file" {}
-variable "output-public-file" {}
+variable "output-private-file" {
+}
+
+variable "output-public-file" {
+}
+

@@ -19,7 +19,7 @@ resource "aws_subnet" "private" {
   cidr_block        = "${ cidrsubnet(var.cidr, var.cidr-newbits, var.cidr-offset-subnet + count.index + var.cidr-step-private-subnet) }"
   vpc_id            = "${ aws_vpc.main.id }"
 
-  tags {
+  tags = {
     "kubernetes.io/role/internal-elb" = "${ var.name }"
     builtWith                         = "terraform"
     KubernetesCluster                 = "${ var.name }"
@@ -37,7 +37,7 @@ resource "aws_route_table" "private" {
     nat_gateway_id = "${ aws_nat_gateway.nat.id }"
   }
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.name }"
     t8s               = "${ var.name }"
@@ -45,7 +45,7 @@ resource "aws_route_table" "private" {
     visibility        = "private"
   }
 
-  propagating_vgws = ["${compact(split(",", var.propagating-vgws-private))}"]
+  propagating_vgws = "${compact(split(",", var.propagating-vgws-private))}"
 }
 
 resource "aws_route_table_association" "private" {

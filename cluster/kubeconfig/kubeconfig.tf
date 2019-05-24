@@ -1,5 +1,5 @@
 resource "null_resource" "waiting-cluster-null-resource" {
-  triggers {
+  triggers = {
     test = "${var.cluster["cluster-id"]}"
   }
 
@@ -26,7 +26,7 @@ resource "local_file" "admin-file" {
 resource "null_resource" "id_rsa_file" {
   depends_on = ["null_resource.waiting-cluster-null-resource"]
 
-  triggers {
+  triggers =  {
     test = "${var.cluster["cluster-id"]}"
   }
 
@@ -59,8 +59,6 @@ EOT
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = ""
-
     command = <<EOT
     kubectl config delete-cluster cluster-${var.cluster["cluster-id"]}
     kubectl config unset users.admin-${var.cluster["cluster-id"]}

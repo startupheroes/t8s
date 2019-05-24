@@ -1,7 +1,7 @@
 resource "aws_internet_gateway" "main" {
   vpc_id = "${ aws_vpc.main.id }"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.name }"
     t8s               = "${ var.name }"
@@ -16,7 +16,7 @@ resource "aws_subnet" "public" {
   cidr_block        = "${ cidrsubnet(var.cidr, var.cidr-newbits, var.cidr-offset-subnet + count.index) }"
   vpc_id            = "${ aws_vpc.main.id }"
 
-  tags {
+  tags =  {
     "kubernetes.io/role/elb" = "${ var.name }"
     builtWith                = "terraform"
     KubernetesCluster        = "${ var.name }"

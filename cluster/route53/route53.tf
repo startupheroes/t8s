@@ -2,7 +2,7 @@ resource "aws_route53_zone" "internal" {
   comment = "Kubernetes [t8s] cluster DNS (internal)"
   name    = "${var.cluster["cluster-tld"]}"
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.cluster["name"] }"
     t8s               = "${ var.cluster["cluster-id"] }"
@@ -17,7 +17,7 @@ resource "aws_route53_zone" "internal" {
 
 resource "aws_route53_record" "A-etcd" {
   name    = "etcd"
-  records = ["${ split(",", var.master-ips) }"]
+  records = "${ split(",", var.master-ips) }"
   ttl     = "300"
   type    = "A"
   zone_id = "${ aws_route53_zone.internal.zone_id }"
@@ -49,7 +49,7 @@ resource "aws_route53_record" "etcd-client-tcp" {
   name    = "_etcd-client._tcp"
   ttl     = "300"
   type    = "SRV"
-  records = ["${ formatlist("0 0 2379 %v", aws_route53_record.A-etcds.*.fqdn) }"]
+  records = "${ formatlist("0 0 2379 %v", aws_route53_record.A-etcds.*.fqdn) }"
   zone_id = "${ aws_route53_zone.internal.zone_id }"
 }
 
@@ -57,7 +57,7 @@ resource "aws_route53_record" "etcd-server-tcp" {
   name    = "_etcd-server-ssl._tcp"
   ttl     = "300"
   type    = "SRV"
-  records = ["${ formatlist("0 0 2380 %v", aws_route53_record.A-etcds.*.fqdn) }"]
+  records = "${ formatlist("0 0 2380 %v", aws_route53_record.A-etcds.*.fqdn) }"
   zone_id = "${ aws_route53_zone.internal.zone_id }"
 }
 

@@ -4,7 +4,7 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tags {
+  tags = {
     builtWith         = "terraform"
     KubernetesCluster = "${ var.name }"
     t8s               = "${ var.name }"

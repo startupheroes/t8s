@@ -1,5 +1,5 @@
 variable "cluster" {
-  type = "map"
+  type = map(string)
 
   default = {
     name    = ""
@@ -7,7 +7,8 @@ variable "cluster" {
   }
 }
 
-variable "depends-id" {}
+variable "depends-id" {
+}
 
 variable "cluster-root-tld" {
   default = "internal.t8s"
@@ -45,12 +46,17 @@ variable "additional-cidr-blocks-node" {
   default = ""
 }
 
-variable "vpc-id" {}
-variable "subnet-ids-public" {}
-variable "subnet-ids-private" {}
+variable "vpc-id" {
+}
+
+variable "subnet-ids-public" {
+}
+
+variable "subnet-ids-private" {
+}
 
 variable "k8s" {
-  type = "map"
+  type = map(string)
 
   default = {
     hyperkube-image = "gcr.io/google_containers/hyperkube"
@@ -59,7 +65,7 @@ variable "k8s" {
 }
 
 variable "cidr" {
-  type = "map"
+  type = map(string)
 
   default = {
     vpc             = "10.0.0.0/16"
@@ -70,7 +76,7 @@ variable "cidr" {
 }
 
 variable "instance-type" {
-  type = "map"
+  type = map(string)
 
   default = {
     bastion = "t2.nano"
@@ -80,7 +86,7 @@ variable "instance-type" {
 }
 
 variable "capacity" {
-  type = "map"
+  type = map(string)
 
   default = {
     desired = 1
@@ -90,7 +96,7 @@ variable "capacity" {
 }
 
 variable "volume-size" {
-  type = "map"
+  type = map(string)
 
   default = {
     ebs  = 250
@@ -99,7 +105,7 @@ variable "volume-size" {
 }
 
 variable "aws" {
-  type = "map"
+  type = map(string)
 
   default = {
     account-id = ""
@@ -113,8 +119,8 @@ variable "etcd-storage-backend" {
   default = "etcd3"
 }
 
-variable "version" {
-  type = "map"
+variable "t8s-version" {
+  type = map(string)
 
   default = {
     etcd = "3.0.17"
@@ -127,54 +133,53 @@ variable "enable-api-batch-v2alpha1" {
 
 # outputs
 output "cluster-domain" {
-  value = "${ var.cluster-domain }"
+  value = var.cluster-domain
 }
 
 output "dns-service-ip" {
-  value = "${ var.dns-service-ip }"
+  value = var.dns-service-ip
 }
 
 output "master1-ip" {
-  value = "${ element( split(",", module.iv.master-ips), 0 ) }"
+  value = element(split(",", module.iv.master-ips), 0)
 }
 
 output "bastion-ip" {
-  value = "${ module.bastion.ip }"
+  value = module.bastion.ip
 }
 
 output "external-elb" {
-  value = "${ module.master.external-elb }"
+  value = module.master.external-elb
 }
 
 output "cluster-internal-tld" {
-  value = "${ module.iv.extended-cluster["cluster-tld"] }"
+  value = module.iv.extended-cluster["cluster-tld"]
 }
 
 output "node-autoscaling-group-name" {
-  value = "${ module.node.autoscaling-group-name }"
+  value = module.node.autoscaling-group-name
 }
 
 output "node-autoscaling-group-id" {
-  value = "${ module.node.autoscaling-group-id }"
+  value = module.node.autoscaling-group-id
 }
 
 output "route-53-zone-id" {
-  value = "${ module.route53.cluster-internal-zone-id }"
+  value = module.route53.cluster-internal-zone-id
 }
 
 output "cluster" {
-  value = "${
-    map(
-      "cluster-domain", "${ var.cluster-domain }",
-      "cluster-tld", "${ module.iv.extended-cluster["cluster-tld"] }",
-      "node-autoscaling-group-name", "${ module.node.autoscaling-group-name }",
-      "node-autoscaling-group-id", "${ module.node.autoscaling-group-id }",
-      "bastion", "${ module.bastion.ip }",
-      "dns-service", "${ var.dns-service-ip }",
-      "master1-ip", "${ module.iv.master-ips }",
-      "zone-id", "${ module.route53.cluster-internal-zone-id }",
-      "node-iam-id", "${ module.iam.aws-iam-role-node-id }",
-      "master-iam-id", "${ module.iam.aws-iam-role-etcd-id }"
-    )
-  }"
+  value = {
+    "cluster-domain"              = var.cluster-domain
+    "cluster-tld"                 = module.iv.extended-cluster["cluster-tld"]
+    "node-autoscaling-group-name" = module.node.autoscaling-group-name
+    "node-autoscaling-group-id"   = module.node.autoscaling-group-id
+    "bastion"                     = module.bastion.ip
+    "dns-service"                 = var.dns-service-ip
+    "master1-ip"                  = module.iv.master-ips
+    "zone-id"                     = module.route53.cluster-internal-zone-id
+    "node-iam-id"                 = module.iam.aws-iam-role-node-id
+    "master-iam-id"               = module.iam.aws-iam-role-etcd-id
+  }
 }
+
